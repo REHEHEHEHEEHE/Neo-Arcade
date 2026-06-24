@@ -15,120 +15,66 @@
 <p><a href="https://reheheheheehe.github.io/doom-3/">Play Doom 3</a></p>
 
 <p><a href="https://reheheheheehe.github.io/Doom/">Play Doom</a></p>
-
-
-
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Game links</title>
     <style>
         body {
-            background-color: #0b0e14; /* Soft blue/gray background */
-            color: #590385;            /* Dark grey text */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            padding-top: 50px;
-        }
-        a {
-            display: inline-block;
-            background-color: #151a24; /* White buttons */
-            color: #ff7a59;            /* Blue link color */
-            padding: 15px 40px;
-            margin: 12px;
-            text-decoration: none;
-            border-radius: 25px;       /* Extra round pill-shaped buttons */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Adds a soft shadow */
-        }
-        a:hover {
-            background-color: #4a90e2;
-            color: white;
-        }
-
-
-                /* This styles the side text box */
-        .side-box {
-            position: fixed;           /* Pins the box to the screen */
-            right: 20px;               /* Puts it 20px away from the right side */
-            top: 100px;                /* Puts it 100px down from the top */
-            width: 250px;              /* Sets the width of the box */
-            background-color: #ffffff; /* White background */
-            padding: 20px;
-            border-radius: 12px;       /* Rounds the corners */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Adds a shadow */
-            text-align: left;          /* Aligns text inside to the left */
-
-            
-                /* This styles the side text box */
-        .credits {
-            position: fixed;           /* Pins the box to the screen */
-            left: 20px;               /* Puts it 20px away from the right side */
-            top: 100px;                /* Puts it 100px down from the top */
-            width: 250px;              /* Sets the width of the box */
-            background-color: #ffffff; /* White background */
-            padding: 20px;
-            border-radius: 12px;       /* Rounds the corners */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Adds a shadow */
-            text-align: left;          /* Aligns text inside to the left */
-        }
-
-    </style>
-</head>
-<body>
-
-
-    <!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            background-color: #0b0e14; /* Soft light background */
+            background-color: #f0f4f8; 
             font-family: sans-serif;
             text-align: center;
             padding: 40px 20px;
             margin: 0;
         }
-        h1 {
-            color: #333;
-        }
-        /* This styles the game box */
+        h1 { color: #333; }
         .game-box {
-            background-color: #ffffff; /* White box background */
-            max-width: 400px;          /* Prevents the box from getting too wide */
-            margin: 20px auto;         /* Centers the box and adds space between boxes */
+            background-color: #ffffff; 
+            max-width: 400px;          
+            margin: 20px auto;         
             padding: 20px;
-            border-radius: 12px;       /* Rounds the corners of the box */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Adds a soft drop shadow */
+            border-radius: 12px;       
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
         }
         .game-title {
             font-size: 20px;
-            color: #590385;
+            color: #111;
             margin-top: 0;
             margin-bottom: 8px;
         }
         .game-description {
             font-size: 14px;
-            color: #666;               /* Lighter grey for description text */
+            color: #666;               
             margin-bottom: 15px;
         }
-        /* This styles the actual clickable button */
         .play-btn {
             display: inline-block;
-            background-color: #007bff; /* Blue button */
+            background-color: #007bff; 
             color: white;
             padding: 10px 20px;
-            text-decoration: none;     /* Removes underline */
+            text-decoration: none;     
             border-radius: 6px;
             font-weight: bold;
         }
-        .play-btn:hover {
-            background-color: #0056b3; /* Darker blue when hovered */
+        .play-btn:hover { background-color: #0056b3; }
+        .left-side-box {
+            position: fixed;           
+            left: 20px;                
+            top: 120px;                
+            width: 240px;              
+            background-color: #ffffff; 
+            padding: 20px;
+            border-radius: 12px;       
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            text-align: left;          
+            z-index: 100;              
         }
 
-                /* This styles the left side text box */
-        .left-side-box {
+        * This styles the right side text box */
+        .right-side-box {
             position: fixed;           /* Pins the box to the screen */
-            left: 20px;                /* Puts it 20px away from the LEFT side */
+            right: 20px;               /* Puts it 20px away from the RIGHT side */
             top: 120px;                /* Puts it 120px down from the top */
             width: 240px;              /* Sets the width of the box */
             background-color: #ffffff; /* White background */
@@ -139,267 +85,134 @@
             z-index: 100;              /* Makes sure it stays on top of other elements */
         }
 
-    </style>
-</head>
-<body>
+        /* ... existing card styles are up here ... */
 
-    
-</html>
-
-    <!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            background-color: #f0f4f8; /* Soft light background */
-            font-family: sans-serif;
-            text-align: center;
-            padding: 40px 20px;
-            margin: 0;
-        }
-        h1 {
-            color: #333;
-        }
-        /* This styles the game box */
-        .game-box {
-            background-color: #020003; /* White box background */
-            max-width: 400px;          /* Prevents the box from getting too wide */
-            margin: 20px auto;         /* Centers the box and adds space between boxes */
+        /* Paste the Right Box CSS directly here */
+        .right-side-box {
+            position: fixed;
+            right: 20px;
+            top: 120px;
+            width: 240px;
+            background-color: #ffffff;
             padding: 20px;
-            border-radius: 12px;       /* Rounds the corners of the box */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08); /* Adds a soft drop shadow */
-        }
-        .game-title {
-            font-size: 20px;
-            color: #111;
-            margin-top: 0;
-            margin-bottom: 8px;
-        }
-        .game-description {
-            font-size: 14px;
-            color: #630B96;               /* Lighter grey for description text */
-            margin-bottom: 15px;
-        }
-        /* This styles the actual clickable button */
-        .play-btn {
-            display: inline-block;
-            background-color: #007bff; /* Blue button */
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;     /* Removes underline */
-            border-radius: 6px;
-            font-weight: bold;
-        }
-        .play-btn:hover {
-            background-color: #0056b3; /* Darker blue when hovered */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: left;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
 
-    <h1>My Game Collection</h1>
-    <p>Only the top 4 games (Celeste, Cuphead, Minecraft, Deltarune) actually work. only click on the others if you want to see the raw code, I'm trying to get them to work though</p>
-
-    <!-- BOX 1 -->
-    <div class="game-box">
-        <h2 class="game-title"> Cuphead</h2>
-        <p class="game-description">basic cuphead, no DLC.</p>
-        <a href="https://reheheheheehe.github.io/cuphead-rehe/" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- BOX 2 -->
-    <div class="game-box">
-        <h2 class="game-title"> Celeste</h2>
-        <p class="game-description">Celest clone, runs smoothly on most devices</p>
-        <a href="https://reheheheheehe.github.io/Celeste/" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- BOX 3 -->
-    <div class="game-box">
-        <h2 class="game-title">Deltarune</h2>
-        <p class="game-description">Deltarune up to chapter 4</p>
-        <a href="https://reheheheheehe.github.io/Deltarune/" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- BOX 4 -->
-    <div class="game-box">
-        <h2 class="game-title">Minecraft</h2>
-        <p class="game-description">Jump over obstacles and duck under hurdles as the speed increases over time. See how long you can survive!</p>
-        <a href="https://reheheheheehe.github.io/Minecraft/" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- BOX 5 -->
-    <div class="game-box">
-        <h2 class="game-title">Age of Empires 2</h2>
-        <p class="game-description">I hope Xavier's happy</p>
-        <a href="https://reheheheheehe.github.io/Age-of-Empires-2" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- BOX 6 -->
-    <div class="game-box">
-        <h2 class="game-title">Doom 3</h2>
-        <p class="game-description">The third doom game</p>
-        <a href="https://reheheheheehe.github.io/doom-3/" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- BOX 7 -->
-    <div class="game-box">
-        <h2 class="game-title">Doom</h2>
-        <p class="game-description">The OG shooter game.</p>
-        <a href="https://reheheheheehe.github.io/Doom/" class="play-btn" target="_blank">Play Game</a>
-    </div>
-
-    <!-- SIDE TEXT BOX -->
-    <div class="side-box">
-        <h3 style="margin-top:0;">📢 Notice Board</h3>
-        <p style="font-size: 14px; color: #555; line-height: 1.4;">
-            Welcome to my website, If you want more games visit hudson's site, if you want to request Some games for me to add, send me a message at Penguinlord2026@outlook.com
-        </p>
-    </div>
-
-    <!-- SIDE TEXT BOX -->
-    <div class="credits">
-        <h3 style="margin-top:0;">Credits</h3>
-        <p style="font-size: 14px; color: #555; line-height: 1.4;">
-            Credits go to: Hudson-for inspiring me to do this, Me-for coding the website, and all of Github-for providing the games and coding website i needed.
-        </p>
-    </div>
-
-
- <!-- INTERNAL JAVASCRIPT VISITOR COUNTER -->
-<div style="margin: 30px auto; text-align: center; font-family: sans-serif; background: #ffffff; max-width: 200px; padding: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-    <p style="font-size: 13px; color: #666; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px;">Your Visits</p>
-    <span id="visit-count" style="font-size: 24px; font-weight: bold; color: #007bff;">1</span>
-</div>
-
-<script>
-    // This script runs entirely inside your own browser window
-    function updateCounter() {
-        // 1. Check if a visit count number already exists in storage
-        let count = localStorage.getItem('my_website_visits');
-        
-        if (count) {
-            // 2. If it exists, convert it to a number and add 1
-            count = parseInt(count) + 1;
-        } else {
-            // 3. If this is the absolute first visit, start at 1
-            count = 1;
-        }
-        
-        // 4. Save the updated number back into the browser storage
-        localStorage.setItem('my_website_visits', count);
-        
-        // 5. Swap the text on the screen with the real number
-        document.getElementById('visit-count').innerText = count;
-    }
-
-    // Run the counter function immediately when the webpage opens
-    updateCounter();
-</script>
-
-        
-
-    <!-- LEFT SIDE TEXT BOX (UPDATED) -->
+    <!-- SIDE PANEL -->
     <div class="left-side-box">
         <h3 style="margin-top:0; color: #333;">⚔️ Player Profile</h3>
-        <div id="profile-content">
-            <!-- Normal visitor profile text goes here -->
-            Delete the link when using the site or games from this site, close the site or games after you use them (they save), and do not share the link with anyone, especially kinan.
-        </div>
-        <!-- This hidden area will only open for the Admin -->
+        <div id="profile-content" onclick="window.secretLogout()" style="cursor: pointer;">Loading...</div>
         <div id="admin-area" style="display: none; margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
             <button onclick="window.showErrorLog()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">View Error Log</button>
         </div>
     </div>
 
+    <h1>My Game Collection</h1>
+    <p>Click a card below to play games!</p>
 
-        <!-- SYSTEM GATEKEEPER WITH ADMIN ERROR LOG SCRIPT -->
-<script>
-    // 1. CONFIGURE YOUR SYSTEM
-    var allowedNames = ["admin" "felix" james" "angus" "oliver" "xavier" "charlie" "abel" "george"];       // Regular players
-    var adminName = "administrator";          // The ONLY name that can see the log
-    var unbanPassword = "Elpenguin0";   // Master unban password
+    <!-- 7 CARDS -->
+    <div class="game-box"><h2 class="game-title">Cuphead</h2><p class="game-description">2D Platformer shooter.</p><a href="https://reheheheheehe.github.io/cuphead-rehe/" class="play-btn">Play</a></div>
+    <div class="game-box"><h2 class="game-title">Celeste</h2><p class="game-description">Climb the mountain.</p><a href="https://reheheheheehe.github.io/Celeste/" class="play-btn">Play</a></div>
+    <div class="game-box"><h2 class="game-title">Deltarune</h2><p class="game-description">Deltarune chapters 1-4.</p><a href="https://reheheheheehe.github.io/Deltarune/" class="play-btn">Play</a></div>
+    <div class="game-box"><h2 class="game-title">Minecraft</h2><p class="game-description">Mine and Craft.</p><a href="https://reheheheheehe.github.io/Minecraft/" class="play-btn">Play</a></div>
+    <div class="game-box"><h2 class="game-title">Doom</h2><p class="game-description">Shoot demons.</p><a href="#" class="play-btn">Play</a></div>
+    <div class="game-box"><h2 class="game-title">placeholder</h2><p class="game-description">No game here yet!</p><a href="#" class="play-btn">Play</a></div>
+    <div class="game-box"><h2 class="game-title">placeholder</h2><p class="game-description">No game here yet!</p><a href="#" class="play-btn">Play</a></div>
 
-    // Helper function to handle the unban feature
-    window.tryUnban = function() {
-        var enteredPass = prompt("Enter Master Unban Password:");
-        if (enteredPass !== null && enteredPass.trim().toLowerCase() === unbanPassword) {
-            localStorage.removeItem("banned_user");
-            alert("Success! The block has been lifted. The page will now reload.");
-            location.reload();
-        } else if (enteredPass !== null) {
-            alert("Incorrect password.");
+    <!-- VISITOR COUNTER BOX -->
+    <div style="margin: 30px auto; text-align: center; font-family: sans-serif; background: #ffffff; max-width: 200px; padding: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <p style="font-size: 13px; color: #666; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px;">Your Visits</p>
+        <span id="visit-count" style="font-size: 24px; font-weight: bold; color: #007bff;">1</span>
+    </div>
+
+    <!-- CODE SYSTEM ENGINE -->
+    <script>
+        var allowedNames = ["angus" "george" "xavier" "oliver" "charlie" "james" "abel" "hudson" "cameron"];       
+        var adminName = "administrator";          
+        var unbanPassword = "Elpenguin0";   
+
+        window.tryUnban = function() {
+            var enteredPass = prompt("Enter Password:");
+            if (enteredPass !== null && enteredPass.trim().toLowerCase() === unbanPassword) {
+                localStorage.removeItem("banned_user");
+                alert("Block lifted!");
+                location.reload();
+            }
+        };
+
+        window.showErrorLog = function() {
+            var logs = localStorage.getItem("arcade_error_logs");
+            alert(logs ? "🚫 BLOCKED LOGS:\n" + logs : "No logs yet!");
+        };
+
+        function updateCounter() {
+            let count = localStorage.getItem('my_website_visits');
+            count = count ? parseInt(count) + 1 : 1;
+            localStorage.setItem('my_website_visits', count);
+            if(document.getElementById('visit-count')) { document.getElementById('visit-count').innerText = count; }
         }
-    }
 
-    // Helper function to display the stored logs to the Admin
-    window.showErrorLog = function() {
-        var logs = localStorage.getItem("arcade_error_logs");
-        if (!logs) {
-            alert("No failed login attempts recorded yet!");
+        if (localStorage.getItem("banned_user") === "true") {
+            document.body.innerHTML = '<div style="font-family:sans-serif; text-align:center; margin-top:100px;"><h1 style="color:red; cursor:pointer;" onclick="window.tryUnban()">❌ Access Permanently Denied</h1><small>(Click title to unban)</small></div>';
         } else {
-            alert("🚫 BLOCKED ATTEMPTS LOG:\n" + logs);
-        }
-    }
-
-    // 2. CHECK IF BANNED
-    if (localStorage.getItem("banned_user") === "true") {
-        document.body.innerHTML = `
-            <div style="font-family:sans-serif; text-align:center; margin-top:100px;">
-                <h1 style="color:red; cursor:pointer;" onclick="window.tryUnban()">❌ Access Permanently Denied</h1>
-                <p style="color:#555;">Your browser has been restricted from entering this arcade.</p>
-                <small style="color:#aaa;">(Admin: Click the red title above to input the unban password)</small>
-            </div>
-        `;
-    } else {
-        // 3. ASK FOR NAME
-        var visitorName = prompt("Please enter your username to enter the arcade:");
-
-        if (visitorName === null || visitorName.trim() === "") {
-            alert("Access Denied. You must enter a name.");
-            document.body.innerHTML = "<h1 style='font-family:sans-serif; text-align:center; margin-top:100px;'>🔒 Access Denied</h1>";
-        } else {
-            var cleanedName = visitorName.trim().toLowerCase();
-
-            // 4. CHECK USER STATUS
-            if (cleanedName === adminName) {
-                // If the Master Admin logs in
-                alert("Welcome Back, Commander. Admin Tools Activated.");
-                // Update the profile box and reveal the hidden log button
-                document.getElementById("profile-content").innerHTML = "<strong>Role:</strong> Master System Admin<br><strong>Status:</strong> Online";
-                document.getElementById("admin-area").style.display = "block";
-
-            } else if (allowedNames.includes(cleanedName)) {
-                // If a normal allowed player logs in
-                alert("Welcome, " + visitorName + "!");
-                document.getElementById("profile-content").innerHTML = "<strong>Username:</strong> " + visitorName + "<br><strong>Role:</strong> Verified Player";
-
+            var visitorName = prompt("Please enter your first name, nothing else:");
+            if (visitorName === null || visitorName.trim() === "") {
+                document.body.innerHTML = "<h1 style='text-align:center; margin-top:100px;'>🔒 Access Denied, to get access contact me at Penguinlord2026@outlook.com</h1>";
             } else {
-                // 5. INTALOCK & LOG ATTEMPT
-                // Get old logs or start fresh
-                var currentLogs = localStorage.getItem("arcade_error_logs") || "";
-                var timestamp = new Date().toLocaleTimeString();
-                
-                // Add the bad attempt to the history line
-                var newLogEntry = "- [" + timestamp + "] Attempted name: '" + visitorName + "'\n";
-                localStorage.setItem("arcade_error_logs", currentLogs + newLogEntry);
-
-                // Issue the ban stamp
-                localStorage.setItem("banned_user", "true");
-                
-                alert("Access Denied! Your browser is now permanently blocked from this site.");
-                location.reload(); // Reloads to instantly show the lock screen
+                var cleanedName = visitorName.trim().toLowerCase();
+                if (cleanedName === adminName) {
+                    alert("Welcome Admin.");
+                    document.getElementById("profile-content").innerHTML = "<strong>Role:</strong> Admin";
+                    document.getElementById("admin-area").style.display = "block";
+                    updateCounter();
+                } else if (allowedNames.includes(cleanedName)) {
+                    alert("Welcome Player.");
+                    document.getElementById("profile-content").innerHTML = "<strong>User:</strong> " + visitorName;
+                    updateCounter();
+                } else {
+                    var currentLogs = localStorage.getItem("arcade_error_logs") || "";
+                    localStorage.setItem("arcade_error_logs", currentLogs + "- " + visitorName + "\n");
+                    localStorage.setItem("banned_user", "true");
+                    alert("Banned!");
+                    location.reload();
+                }
             }
         }
-    }
-</script>
+    </script>
 
-    }
-</script>
+    
 
+      <!-- Paste the Right Box HTML directly here -->
+    <div class="right-side-box">
+        <h3 style="margin-top:0; color: #333;">📢 Patch Notes</h3>
+        <p style="font-size: 14px; color: #555; line-height: 1.4; margin-bottom: 0;">
+            To ask for more games, or for a friend to have an account, please contact Penguinlord2026@outlook.com
+        </p>
+    </div>
 
+    // Secret Logout Action with Password Protection
+        window.secretLogout = function() {
+            var logoutPassword = "Elpenguin0"; // CHANGE YOUR LOGOUT PASSWORD HERE
+            
+            var enteredPass = prompt("Admin Authorization Required:\nEnter Logout Password:");
+            
+            if (enteredPass !== null) {
+                if (enteredPass.trim() === logoutPassword) {
+                    // Triggers the browser to reset your login status
+                    localStorage.removeItem("my_website_visits"); 
+                    alert("Authorization Successful. Logging out...");
+                    location.reload();
+                } else {
+                    alert("Incorrect Password. Access Denied.");
+                }
+            }
+        };
 
 </body>
 </html>
-
-
