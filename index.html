@@ -279,7 +279,7 @@
       let users = await res.json();
 
       if (users && users.length > 0) {
-        // FIXED DATATARGET SLOTT: Targeting user position 0 parses individual dataset correctly
+        // FIXED ARRAY ACCES POINT: Added [0] so it targets the specific row properly!
         var currentUser = users[0];
 
         if (currentUser.is_banned === true) {
