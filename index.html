@@ -156,6 +156,7 @@
     cursor: pointer;
     border-radius: 6px;
     box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+    margin-top: 5px;
   }
 </style>
 </head>
@@ -211,28 +212,257 @@
   <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
-<div class="game-box">
-  <h2 class="game-title">Deltarune</h2>
-  <p class="game-description">Deltarune chapters 1-4.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
-</div>
-
-<div class="game-box">
-  <h2 class="game-title">Minecraft</h2>
-  <p class="game-description">Mine and Craft.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
-</div>
-
-<div class="game-box">
-  <h2 class="game-title">Doom</h2>
-  <p class="game-description">Shoot demons.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
-</div>
-
 <div class="counter-box">
   <p style="font-size:12px;margin:0;color:#8a99ad;">GRID_VISITS</p>
   <span id="visit-count" style="font-size:22px;font-weight:bold;color:#00f0ff;text-shadow:0 0 5px #00f0ff;">1</span>
 </div>
 
 <script>
-  var baseRestUrl = "https://xendlckjbpqllbfzm
+  var baseRestUrl = "https://xendlckjbpqllbfzmouj.supabase.co/rest/v1"; 
+  var publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlbmRsY2tqYnBxbGxiZnptb3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMzM0MDIsImV4cCI6MjA5NzkwOTQwMn0.-QJUHl7sCNUE0JFnsVHBPw9sped_oVOp8C6RTvQWYOA";
+
+  var restHeaders = {
+    "apikey": publicAnonKey,
+    "Authorization": "Bearer " + publicAnonKey,
+    "Content-Type": "application/json"
+  };
+
+  var logoutPassword = "Elpenguin0";
+  var overrideCode = "Elpenguin0"; 
+  var adminPasswordB64 = "RWxwZW5ndWluMA==";
+
+  var globalUsersList = [];
+  var identifiedUser = null;
+  var currentAuthStage = "USERNAME"; 
+  var temporaryUsername = ""; // Stores username during sign-up pipeline step
+
+  // Utility: Modern SHA-256 browser hashing engine
+  async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  function showAuthScreen(stage) {
+    currentAuthStage = stage;
+    var overlay = document.getElementById("auth-overlay");
+    var title = document.getElementById("auth-title");
+    var desc = document.getElementById("auth-desc");
+    var field = document.getElementById("auth-input-field");
+    
+    field.value = "";
+    overlay.style.display = "flex";
+    field.focus();
+
+    if (stage === "USERNAME") {
+      title.innerText = "// ACCESS GATEWAY";
+      desc.innerText = "ENTER NETWORK ACCESS SIGNATURE:";
+      field.type = "text";
+      field.placeholder = "Username...";
+    } else if (stage === "LOGIN_PASSWORD") {
+      title.innerText = "🔑 VERIFICATION REQUIRED";
+      desc.innerText = "ENTER PASSWORD FOR THIS PROFILE:";
+      field.type = "password";
+      field.placeholder = "Enter Password...";
+    } else if (stage === "REGISTER_PASSWORD") {
+      title.innerText = "🆕 PROFILE NOT FOUND";
+      desc.innerText = "CREATE A SECURE PASSWORD TO REGISTER ACCOUNT:";
+      field.type = "password";
+      field.placeholder = "Create Password...";
+    } else if (stage === "ADMIN_PASSWORD") {
+      title.innerText = "🔒 HIGH SECURITY";
+      desc.innerText = "ENTER ADMINISTRATIVE AUTH TOKEN:";
+      field.type = "password";
+      field.placeholder = "Admin Password...";
+    } else if (stage === "OVERRIDE") {
+      title.innerText = "🚨 TERMINAL LOCKED";
+      desc.innerText = "ENTER BYPASS CODE TO RETRY REGISTRATION:";
+      field.type = "password";
+      field.placeholder = "Bypass Key...";
+    } else if (stage === "LOGOUT") {
+      title.innerText = "// TERMINATE SESSION";
+      desc.innerText = "ENTER SECURE CLOSURE PIN:";
+      field.type = "password";
+      field.placeholder = "Logout Password...";
+    }
+  }
+
+  async function processAuthSubmit() {
+    var val = document.getElementById("auth-input-field").value.trim();
+    if(!val) return;
+
+    if (currentAuthStage === "USERNAME") {
+      if (!Array.isArray(globalUsersList)) {
+        alert("Database connection sync error. Please try again.");
+        return;
+      }
+
+      temporaryUsername = val.toLowerCase();
+      var match = globalUsersList.find(u => u.username && u.username.toLowerCase() === temporaryUsername);
+      
+      if (match) {
+        identifiedUser = match;
+        if (match.is_banned) {
+          document.getElementById("auth-panel-box").innerHTML = "<h2 style='color:#ff0055;'>❌ TERMINATED</h2><p style='color:#8a99ad;font-size:12px;'>Hardware signature blacklisted from net grid.</p>";
+          return;
+        }
+        
+        // If the matching user profile already has a modern hashed password saved, verify it
+        if (match.password_hash) {
+          showAuthScreen("LOGIN_PASSWORD");
+        } else if (match.role === "admin") {
+          showAuthScreen("ADMIN_PASSWORD");
+        } else {
+          grantAccess();
+        }
+      } else {
+        // Feature Upgrade: If name doesn't match database records, offer registration interface right away!
+        showAuthScreen("REGISTER_PASSWORD");
+      }
+    } 
+    else if (currentAuthStage === "LOGIN_PASSWORD") {
+      var computedHash = await sha256(val);
+      if (computedHash === identifiedUser.password_hash) {
+        if (identifiedUser.role === "admin") {
+          showAuthScreen("ADMIN_PASSWORD");
+        } else {
+          grantAccess();
+        }
+      } else {
+        alert("ACCESS DENIED: Password incorrect.");
+        showAuthScreen("USERNAME");
+      }
+    }
+    else if (currentAuthStage === "REGISTER_PASSWORD") {
+      var newHash = await sha256(val);
+      try {
+        // Safely insert user registration structure details onto live remote table backend parameters
+        let registerResponse = await fetch(`${baseRestUrl}/users`, {
+          method: "POST",
+          headers: restHeaders,
+          body: JSON.stringify({
+            username: temporaryUsername,
+            password_hash: newHash,
+            role: "player",
+            is_banned: false
+          })
+        });
+
+        alert("Account verified and deployed onto live matrix registry network!");
+        // Re-pull database tables so the session loads successfully
+        let res = await fetch(`${baseRestUrl}/users`, { method: "GET", headers: restHeaders });
+        globalUsersList = await res.json();
+        identifiedUser = globalUsersList.find(u => u.username === temporaryUsername);
+        
+        grantAccess();
+      } catch(e) {
+        console.error(e);
+        alert("Registration link dropped. Database parameters rejected schema requirements.");
+        showAuthScreen("USERNAME");
+      }
+    }
+    else if (currentAuthStage === "ADMIN_PASSWORD") {
+      if (val === atob(adminPasswordB64)) {
+        grantAccess();
+      } else {
+        alert("ACCESS DENIED: Administrative mismatch.");
+        showAuthScreen("OVERRIDE");
+      }
+    } 
+    else if (currentAuthStage === "OVERRIDE") {
+      if (val === overrideCode) {
+        alert("Grid Lock Overridden. Resetting interface matrix...");
+        showAuthScreen("USERNAME");
+      } else {
+        alert("Override Failed. System sequence frozen.");
+      }
+    } 
+    else if (currentAuthStage === "LOGOUT") {
+      if (val === logoutPassword) {
+        alert("Terminal Session Dropped smoothly.");
+        location.reload();
+      } else {
+        alert("Access Violation: Invalid Code.");
+        document.getElementById("auth-overlay").style.display = "none";
+      }
+    }
+  }
+
+  function grantAccess() {
+    document.getElementById("auth-overlay").style.display = "none";
+    var displayRole = identifiedUser.role ? identifiedUser.role.toUpperCase() : "PLAYER";
+    document.getElementById("profile-content").innerHTML = `<b>SEC_LEVEL: ${displayRole}</b><br>ID: ${identifiedUser.username}`;
+    
+    let c = localStorage.getItem('my_website_visits');
+    c = c ? parseInt(c) + 1 : 1;
+    localStorage.setItem('my_website_visits', c);
+    if(document.getElementById('visit-count')) { document.getElementById('visit-count').innerText = c; }
+
+    if (identifiedUser.role === "admin") { loadAdminConsole(globalUsersList); }
+  }
+
+  function triggerLogoutPrompt() {
+    showAuthScreen("LOGOUT");
+  }
+
+  async function loadAdminConsole(allUsers) {
+    try {
+      document.getElementById("admin-console").style.display = "block";
+      var bannedContainer = document.getElementById("banned-management-list");
+      var activeContainer = document.getElementById("active-management-list");
+      bannedContainer.innerHTML = ""; activeContainer.innerHTML = "";
+      var hasBanned = false, hasActive = false;
+
+      if(Array.isArray(allUsers)) {
+        allUsers.forEach((user) => {
+          if(user.role === 'admin') return;
+          var row = document.createElement("div");
+          row.className = "admin-user-row";
+          row.innerHTML = `<b>${user.username}</b><br>`;
+          var toggleBtn = document.createElement("button");
+          toggleBtn.className = "admin-btn";
+          
+          if (user.is_banned) {
+            hasBanned = true;
+            toggleBtn.style.background = "#28a745"; toggleBtn.innerText = "Unban User";
+            toggleBtn.onclick = async function() {
+              await fetch(`${baseRestUrl}/users?username=eq.${user.username}`, {
+                method: "PATCH", headers: restHeaders, body: JSON.stringify({ is_banned: false })
+              });
+              alert(`User unlocked.`); location.reload();
+            };
+            row.appendChild(toggleBtn); bannedContainer.appendChild(row);
+          } else {
+            hasActive = true;
+            toggleBtn.style.background = "#dc3545"; toggleBtn.innerText = "Terminate";
+            toggleBtn.onclick = async function() {
+              await fetch(`${baseRestUrl}/users?username=eq.${user.username}`, {
+                method: "PATCH", headers: restHeaders, body: JSON.stringify({ is_banned: true })
+              });
+              alert(`User terminated.`); location.reload();
+            };
+            row.appendChild(toggleBtn); activeContainer.appendChild(row);
+          }
+        });
+      }
+      if(!hasBanned) bannedContainer.innerHTML = "<span style='font-size:11px;color:#8a99ad;'>No banned accounts.</span>";
+      if(!hasActive) activeContainer.innerHTML = "<span style='font-size:11px;color:#8a99ad;'>No active accounts.</span>";
+    } catch(e) { console.error(e); }
+  }
+
+  async function bootEngine() {
+    try {
+      let res = await fetch(`${baseRestUrl}/users`, { method: "GET", headers: restHeaders });
+      globalUsersList = await res.json();
+      showAuthScreen("USERNAME");
+    } catch(e) {
+      console.error(e);
+      document.body.innerHTML = "<div style='margin-top:100px;'><h1>🔒 Driver Failure</h1><p>Database synchronization block detected. Check network configurations.</p></div>";
+    }
+  }
+
+  bootEngine();
+</script>
+</body>
+</html>
