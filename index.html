@@ -116,10 +116,136 @@
     border: 1px solid #ff0055;
     box-shadow: 0 0 10px rgba(255, 0, 85, 0.1);
   }
+
+  /* NEW: Embedded HTML Terminal Gateway Interface Overlay */
+  #auth-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #0b0e14;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .auth-panel {
+    background: #151a24;
+    padding: 30px;
+    border-radius: 12px;
+    border: 2px solid #00f0ff;
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
+    max-width: 320px;
+    width: 100%;
+  }
+  .auth-input {
+    width: 90%;
+    padding: 10px;
+    background: #0b0e14;
+    border: 1px solid #ff0055;
+    color: #00f0ff;
+    font-family: monospace;
+    margin: 15px 0;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .auth-btn {
+    background: #ff0055;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+  }
 </style>
 </head>
 <body>
 
+<div id="auth-overlay">
+  <div class="auth-panel" id="auth-panel-box">
+    <h2 id="auth-title" style="color:#ff0055;margin-top:0;">// ACCESS GATEWAY</h2>
+    <p id="auth-desc" style="font-size:12px;color:#8a99ad;">ENTER NETWORK ACCESS SIGNATURE:</p>
+    <input type="text" id="auth-input-field" class="auth-input" placeholder="Username...">
+    <br>
+    <button id="auth-submit-btn" class="auth-btn" onclick="processAuthSubmit()">VERIFY</button>
+  </div>
+</div>
+
 <div class="left-side-box">
   <h3 style="margin:0 0 5px 0; color:#ff0055;">// PROFILE</h3>
-  <div id="profile-content" onclick="window.secretLogout()" style="cursor:pointer;background:#0b0e14;padding:8px;border-radius:4px
+  <div id="profile-content" onclick="triggerLogoutPrompt()" style="cursor:pointer;background:#0b0e14;padding:8px;border-radius:4px;border:1px solid #222c3d;">
+       Offline
+  </div>
+  <small style="color:#8a99ad;display:block;margin-top:5px;">(Click profile text to log out)</small>
+  
+  <div id="admin-console" style="display:none;border-top:1px dashed #222c3d;margin-top:15px;padding-top:10px;">
+    <h4 style="margin:0 0 10px 0;color:#ff0055;">// REMOTE CONSOLE</h4>
+    
+    <div class="admin-section-title">🛑 BANNED GRIDS</div>
+    <div id="banned-management-list">None</div>
+
+    <div class="admin-section-title">🟢 ACTIVE GRIDS</div>
+    <div id="active-management-list">None</div>
+  </div>
+</div>
+
+<div class="right-side-box">
+  <h3 style="margin:0 0 5px 0; color:#ff0055;">// SYSTEM NOTES</h3>
+  <p style="font-size:13px;color:#8a99ad;line-height:1.4;margin:0;">
+    SYSTEM STATUS: ONLINE.<br><br>Welcome to the neon terminal. Access verified games below.
+  </p>
+</div>
+
+<h1>NEO ARCADE SYSTEMS</h1>
+<p style="color:#8a99ad;">Select an active net-grid link to deploy game client:</p>
+
+<div class="game-box">
+  <h2 class="game-title">Cuphead</h2>
+  <p class="game-description">2D Platformer shooter.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
+
+<div class="game-box">
+  <h2 class="game-title">Celeste</h2>
+  <p class="game-description">Climb the mountain.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
+
+<div class="game-box">
+  <h2 class="game-title">Deltarune</h2>
+  <p class="game-description">Deltarune chapters 1-4.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
+
+<div class="game-box">
+  <h2 class="game-title">Minecraft</h2>
+  <p class="game-description">Mine and Craft.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
+
+<div class="game-box">
+  <h2 class="game-title">Doom</h2>
+  <p class="game-description">Shoot demons.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
+
+<div class="counter-box">
+  <p style="font-size:12px;margin:0;color:#8a99ad;">GRID_VISITS</p>
+  <span id="visit-count" style="font-size:22px;font-weight:bold;color:#00f0ff;text-shadow:0 0 5px #00f0ff;">1</span>
+</div>
+
+<script>
+  // 1. App Database Configurations
+  var baseRestUrl = "https://xendlckjbpqllbfzmouj.supabase.co/rest/v1"; 
+  var publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlbmRsY2tqYnBxbGxiZnptb3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMzM0MDIsImV4cCI6MjA5NzkwOTQwMn0.-QJUHl7sCNUE0JFnsVHBPw9sped_oVOp8C6RTvQWYOA";
+
+  var restHeaders = {
+    "apikey": publicAnonKey,
+    "Authorization": "Bearer " + publicAnonKey,
+    "Content-Type": "application/json"
+  };
+
+  var logoutPassword = "Elpenguin0";
+  var overrideCode = "Elpenguin0"; 
+  var adminPasswordB6
