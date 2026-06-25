@@ -7,49 +7,103 @@
 
 <style>
 body{
-    background:#111;
-    color:#fff;
+    background:linear-gradient(180deg,#0b1736,#10265c,#173a8a);
+    color:white;
     font-family:Arial,sans-serif;
-    max-width:900px;
+    max-width:1400px;
     margin:auto;
-    padding:20px;
+    padding:30px;
+    min-height:100vh;
 }
 
 h1{
     text-align:center;
+    font-size:56px;
+    margin-bottom:30px;
 }
 
 .panel{
-    background:#1a1a1a;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:20px;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
 }
 
 input{
     width:100%;
-    padding:10px;
-    margin:5px 0;
+    padding:14px;
+    margin:8px 0;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
     box-sizing:border-box;
 }
 
 button{
-    padding:10px 20px;
+    border:none;
+    border-radius:12px;
+    padding:12px 20px;
+    font-weight:bold;
     cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+#adminPanel{
+    background:rgba(0,0,0,.25);
+    border-radius:20px;
+    padding:20px;
+}
+
+#userTable{
+    width:100%;
+    border-collapse:collapse;
+}
+
+#userTable th{
+    font-size:22px;
+    padding:15px;
+}
+
+#userTable td{
+    padding:15px;
 }
 
 .game-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:15px;
-    margin-top:20px;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    margin-top:25px;
 }
 
 .game{
-    background:#222;
-    padding:20px;
-    border-radius:10px;
+    background:rgba(255,255,255,.08);
+    border-radius:25px;
+    overflow:hidden;
+    transition:.25s;
+    box-shadow:0 8px 25px rgba(0,0,0,.35);
+}
+
+.game:hover{
+    transform:translateY(-8px);
+}
+
+.game img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    display:block;
+}
+
+.game h3{
     text-align:center;
+    padding:20px;
+    margin:0;
 }
 
 .game a{
@@ -121,11 +175,31 @@ button{
 <div class="game-grid">
 
 <div class="game">
+<a href="https://reheheheheehe.github.io/cuphead-rehe/" target="_blank">
+<img src="cuphead-cover.png">
 <h3>Cuphead</h3>
+</a>
 </div>
 
 <div class="game">
+<a href="https://reheheheheehe.github.io/Celeste/" target="_blank">
+<img src="celeste-cover.jpg">
 <h3>Celeste</h3>
+</a>
+</div>
+
+<div class="game">
+<a href="https://ustymukhman.github.io/WebDOOM/public/" target="_blank">
+<img src="doom-cover.jpg">
+<h3>DOOM</h3>
+</a>
+</div>
+
+<div class="game">
+<a href="https://reheheheheehe.github.io/Deltarune/" target="_blank">
+<img src="deltarune-cover.jpg">
+<h3>Deltarune</h3>
+</a>
 </div>
 
 <div class="game">
@@ -137,21 +211,16 @@ button{
 </div>
 
 <div class="game">
-<h3>Deltarune</h3>
-</div>
-
-<div class="game">
 <h3>Hollow Knight</h3>
 </div>
 
 <div class="game">
-<h3><a href="https://kosmikau.github.io/" target="_blank">Kosmik's Site</a></h3>
+<a href="https://kosmikau.github.io/" target="_blank">
+<h3>Kosmik's Site</h3>
+</a>
 </div>
 
 </div>
-
-</div>
-
 <script type="module">
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
