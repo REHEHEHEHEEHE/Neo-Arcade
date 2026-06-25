@@ -58,7 +58,7 @@
     position: fixed; 
     left: 15px; 
     top: 100px; 
-    width: 220px; 
+    width: 240px; 
     background: #151a24; 
     padding: 15px;
     border-radius: 12px; 
@@ -66,7 +66,7 @@
     box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
     text-align: left; 
     z-index: 100; 
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
   }
   .right-side-box {
@@ -81,6 +81,14 @@
     box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
     text-align: left; 
     z-index: 100; 
+  }
+  .admin-section-title {
+    font-size: 11px;
+    color: #00f0ff;
+    margin: 15px 0 5px 0;
+    letter-spacing: 1px;
+    border-bottom: 1px dashed #222c3d;
+    padding-bottom: 3px;
   }
   .admin-user-row {
     font-size: 12px;
@@ -120,8 +128,13 @@
   <small style="color:#8a99ad;display:block;margin-top:5px;">(Click profile text to log out)</small>
   
   <div id="admin-console" style="display:none;border-top:1px dashed #222c3d;margin-top:15px;padding-top:10px;">
-    <h4 style="margin:0 0 10px 0;color:#ff0055;">// REMOTE CONSOLE</h4>
-    <div id="user-management-list">Fetching...</div>
+    <h4 style="margin:0 0 5px 0;color:#ff0055;">// REMOTE CONSOLE</h4>
+    
+    <div class="admin-section-title">🛑 BANNED GRIDS</div>
+    <div id="banned-management-list">None</div>
+
+    <div class="admin-section-title">🟢 ACTIVE GRIDS</div>
+    <div id="active-management-list">None</div>
   </div>
 </div>
 
@@ -194,10 +207,12 @@
     "Content-Type": "application/json"
   };
 
+  // UPDATED: Standardized password configurations
   var logoutPassword = "Elpenguin0";
+  var overrideCode = "Elpenguin0"; 
   
-  // NEW: Your hidden bypass sequence to get another attempt
-  var overrideCode = "RECOVERY2026"; 
+  // UPDATED: Admin string encrypts down into Base64 notation format
+  var adminPasswordB64 = "RWxwZW5ndWluMA==";
 
   // 2. Secret Terminal Logout Routine
   window.secretLogout = function() {
@@ -211,118 +226,9 @@
     }
   };
 
-  // NEW: Interactive lock override function
+  // 3. Interactive lock override function
   window.triggerOverride = function() {
     var code = prompt("ENTER BYPASS KEY FOR RE-LOG ATTEMPT:");
     if (code !== null && code.trim() === overrideCode) {
       localStorage.removeItem("active_user");
-      alert("Grid Lock Overridden. Initializing secondary gateway...");
-      location.reload(); // Reloads the site cleanly to rerun runSystem()
-    } else if (code !== null) {
-      alert("Override Failed. Hardware sequence locked.");
-    }
-  };
-
-  // 3. Admin Panel Management Engine
-  async function loadAdminConsole(allUsers) {
-    try {
-      document.getElementById("admin-console").style.display = "block";
-      var container = document.getElementById("user-management-list");
-      container.innerHTML = "";
-      
-      allUsers.forEach((user) => {
-        if(user.role === 'admin') return;
-
-        var row = document.createElement("div");
-        row.className = "admin-user-row";
-        row.innerHTML = `<b>${user.username}</b> [${user.is_banned ? "LOCKED" : "ACTIVE"}]<br>`;
-
-        var toggleBtn = document.createElement("button");
-        toggleBtn.className = "admin-btn";
-        toggleBtn.style.background = user.is_banned ? "#28a745" : "#dc3545";
-        toggleBtn.innerText = user.is_banned ? "Override" : "Terminate";
-        
-        toggleBtn.onclick = async function() {
-          await fetch(`${baseRestUrl}/users?username=eq.${user.username}`, {
-            method: "PATCH",
-            headers: restHeaders,
-            body: JSON.stringify({ is_banned: !user.is_banned })
-          });
-          alert(`Permissions updated for user: ${user.username}`);
-          location.reload();
-        };
-
-        row.appendChild(toggleBtn);
-        container.appendChild(row);
-      });
-    } catch(e) {
-      document.getElementById("user-management-list").innerHTML = "Console log load error.";
-    }
-  }
-
-  // 4. Analytics Counter Routine
-  function updateCounter() {
-    let c = localStorage.getItem('my_website_visits');
-    c = c ? parseInt(c) + 1 : 1;
-    localStorage.setItem('my_website_visits', c);
-    var el = document.getElementById('visit-count');
-    if(el) { el.innerText = c; }
-  }
-
-  // 5. System Initializer Execution Environment
-  async function runSystem() {
-    var cachedUser = localStorage.getItem("active_user");
-    
-    if (!cachedUser) {
-      var enteredName = prompt("ENTER ACCESS USERNAME:");
-      if (!enteredName || enteredName.trim() === "") {
-        // FIXED: Added window.triggerOverride to the restriction block
-        document.body.innerHTML = "<div onclick='window.triggerOverride()' style='cursor:pointer;margin-top:100px;'><h1>🔒 Terminal Access Restricted</h1><p style='color:#8a99ad;font-size:12px;'>System Terminal Offline</p></div>";
-        return;
-      }
-      cachedUser = enteredName.trim().toLowerCase();
-    }
-
-    try {
-      let res = await fetch(`${baseRestUrl}/users`, { method: "GET", headers: restHeaders });
-      let allUsers = await res.json();
-
-      var currentUser = null;
-      if (Array.isArray(allUsers)) {
-        for (var i = 0; i < allUsers.length; i++) {
-          if (allUsers[i].username && allUsers[i].username.toLowerCase() === cachedUser) {
-            currentUser = allUsers[i];
-            break;
-          }
-        }
-      }
-
-      if (currentUser) {
-        if (currentUser.is_banned === true) {
-          localStorage.removeItem("active_user");
-          document.body.innerHTML = '<div style="font-family:monospace;text-align:center;margin-top:100px;color:#ff0055;"><h1 style="text-shadow:0 0 10px #ff0055;">❌ SESSION TERMINATED</h1><p>Your hardware signature has been banned from this network grid.</p></div>';
-        } else {
-          localStorage.setItem("active_user", cachedUser);
-          
-          var displayRole = currentUser.role ? currentUser.role.toUpperCase() : "PLAYER";
-          document.getElementById("profile-content").innerHTML = `<b>SEC_LEVEL: ${displayRole}</b><br>ID: ${cachedUser}`;
-          updateCounter();
-
-          if (currentUser.role === "admin") { loadAdminConsole(allUsers); }
-        }
-      } else {
-        alert("Access Refused: Signature not recognized.");
-        localStorage.removeItem("active_user");
-        // FIXED: Handled incorrect credentials by injecting a clickable text element linked to triggerOverride
-        document.body.innerHTML = "<div onclick='window.triggerOverride()' style='cursor:pointer;margin-top:100px;'><h1>🔒 Access Refused: Invalid Credentials</h1><p style='color:#8a99ad;font-size:12px;'>Click text block to send system override signature.</p></div>";
-      }
-    } catch(e) {
-      console.error(e); 
-      document.body.innerHTML = "🔒 Network Driver Failure. Connection block detected.";
-    }
-  }
-
-  runSystem();
-</script>
-</body>
-</html>
+      alert("Grid Lock Overridden. Initializing secondary gateway
