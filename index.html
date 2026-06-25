@@ -6,6 +6,58 @@
 </head>
 <body>
 
+    <div id="authPanel">
+
+    <h2>Register</h2>
+
+    <input
+        id="regUsername"
+        placeholder="Username">
+
+    <input
+        id="regEmail"
+        placeholder="Email">
+
+    <input
+        id="regPassword"
+        type="password"
+        placeholder="Password">
+
+    <button onclick="register()">
+        Register
+    </button>
+
+    <hr>
+
+    <h2>Login</h2>
+
+    <input
+        id="loginUsername"
+        placeholder="Username">
+
+    <input
+        id="loginPassword"
+        type="password"
+        placeholder="Password">
+
+    <button onclick="login()">
+        Login
+    </button>
+
+</div>
+
+<div
+    id="userPanel"
+    style="display:none;">
+
+    <h2 id="welcome"></h2>
+
+    <button onclick="logout()">
+        Logout
+    </button>
+
+</div>
+
 <h1>Neo Arcade Supabase Test</h1>
 
 <button onclick="loginTest()">Login Test</button>
@@ -111,6 +163,161 @@ const { data: profile, error: profileError } =
 
 console.log("PROFILE:", profile);
 console.log("PROFILE ERROR:", profileError);
+</script>
+    <script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+
+const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+window.register = async function () {
+
+    const username =
+        document.getElementById("regUsername").value.trim();
+
+    const email =
+        document.getElementById("regEmail").value.trim();
+
+    const password =
+        document.getElementById("regPassword").value;
+
+    if (!username || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    const { data, error } =
+        await supabase.auth.signUp({
+            email,
+            password
+        });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    const userId = data.user.id;
+
+    const { error: profileError } =
+        await supabase
+            .from("profiles")
+            .insert({
+                id: userId,
+                username: username,
+                email: email,
+                role: "player",
+                is_banned: false
+            });
+
+    if (profileError) {
+        alert(profileError.message);
+        return;
+    }
+
+    alert("Account created successfully.");
+};
+
+window.login = async function () {
+
+    const username =
+        document.getElementById("loginUsername").value.trim();
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+    const { data: profile, error: profileError } =
+        await supabase
+            .from("profiles")
+            .select("email")
+            .eq("username", username)
+            .single();
+
+    if (profileError || !profile) {
+        alert("Username not found.");
+        return;
+    }
+
+    const { error } =
+        await supabase.auth.signInWithPassword({
+            email: profile.email,
+            password
+        });
+
+    if (error) {
+        alert(error.message);
+        return;
+    }
+
+    await loadUser();
+};
+
+window.logout = async function () {
+
+    await supabase.auth.signOut();
+
+    location.reload();
+};
+
+async function loadUser() {
+
+    const { data } =
+        await supabase.auth.getUser();
+
+    const user = data.user;
+
+    if (!user) return;
+
+    const { data: profile, error } =
+        await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
+
+    if (error || !profile) {
+        console.error(error);
+        return;
+    }
+
+    document.getElementById("welcome").innerHTML =
+        "Welcome " +
+        profile.username +
+        "<br>Role: " +
+        profile.role;
+
+    document.getElementById("authPanel").style.display =
+        "none";
+
+    document.getElementById("userPanel").style.display =
+        "block";
+
+    if (profile.is_banned) {
+        alert("This account has been banned.");
+        await supabase.auth.signOut();
+        location.reload();
+        return;
+    }
+
+    if (profile.role === "admin") {
+        console.log("Admin account detected");
+    } else {
+        console.log("Player account detected");
+    }
+}
+
+const {
+    data: { session }
+} = await supabase.auth.getSession();
+
+if (session) {
+    await loadUser();
+}
 </script>
 
 </body>
