@@ -1,225 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Retro Game Arcade</title>
-    <style>
-        body {
-            background-color: #f0f4f8; 
-            font-family: sans-serif;
-            text-align: center;
-            padding: 40px 20px;
-            margin: 0;
-        }
-        h1 { color: #333; }
-        .game-box {
-            background-color: #ffffff; 
-            max-width: 400px;          
-            margin: 20px auto;         
-            padding: 20px;
-            border-radius: 12px;       
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-        }
-        .game-title {
-            font-size: 20px;
-            color: #111;
-            margin-top: 0;
-            margin-bottom: 8px;
-        }
-        .game-description {
-            font-size: 14px;
-            color: #666;               
-            margin-bottom: 15px;
-        }
-        .play-btn {
-            display: inline-block;
-            background-color: #007bff; 
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;     
-            border-radius: 6px;
-            font-weight: bold;
-        }
-        .play-btn:hover { background-color: #0056b3; }
-        .left-side-box {
-            position: fixed;           
-            left: 20px;                
-            top: 120px;                
-            width: 240px;              
-            background-color: #ffffff; 
-            padding: 20px;
-            border-radius: 12px;       
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            text-align: left;          
-            z-index: 100;              
-        }
-        .right-side-box {
-            position: fixed;           
-            right: 20px;               
-            top: 120px;                
-            width: 240px;              
-            background-color: #ffffff; 
-            padding: 20px;
-            border-radius: 12px;       
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            text-align: left;          
-            z-index: 100;              
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Arcade</title>
+<style>
+  body {
+    background: #f0f4f8; 
+    font-family: sans-serif;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+  }
+  h1 { color: #333; }
+  .game-box {
+    background: #fff; 
+    max-width: 360px; 
+    margin: 15px auto; 
+    padding: 15px;
+    border-radius: 12px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  }
+  .game-title {
+    font-size: 18px;
+    margin: 0 0 5px 0;
+  }
+  .game-description {
+    font-size: 13px;
+    color: #666; 
+    margin-bottom: 12px;
+  }
+  .play-btn {
+    display: inline-block;
+    background: #007bff; 
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none; 
+    border-radius: 6px;
+    font-weight: bold;
+  }
+  .left-side-box {
+    position: fixed; 
+    left: 15px; 
+    top: 100px; 
+    width: 200px; 
+    background: #fff; 
+    padding: 15px;
+    border-radius: 12px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    text-align: left; 
+    z-index: 100; 
+  }
+  .right-side-box {
+    position: fixed; 
+    right: 15px; 
+    top: 100px; 
+    width: 200px; 
+    background: #fff; 
+    padding: 15px;
+    border-radius: 12px; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+    text-align: left; 
+    z-index: 100; 
+  }
+</style>
 </head>
 <body>
 
-    <!-- SIDE PANEL -->
-    <div class="left-side-box">
-        <h3 style="margin-top:0; color: #333;">⚔️ Player Profile</h3>
-        <div id="profile-content" onclick="window.secretLogout()" style="cursor: pointer; background: #fdfdfd; padding: 5px; border-radius: 4px;">Loading...</div>
-        <small style="color:#999; display:block; margin-top:5px;">(Click profile text to log out)</small>
-        <div id="admin-area" style="display: none; margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
-            <button onclick="window.showUniversalLog()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">View Universal Log</button>
-        </div>
-    </div>
+<!-- LEFT BAR -->
+<div class="left-side-box">
+  <h3 style="margin:0 0 5px 0;">Profile</h3>
+  <div id="profile-content" 
+       onclick="window.secretLogout()" 
+       style="cursor:pointer;background:#fafafa;padding:5px;">
+       Loading...
+  </div>
+  <small style="color:#999;">(Click text to log out)</small>
+  <div id="admin-area" style="display:none;margin-top:10px;">
+    <button onclick="window.showUniversalLog()" 
+            style="background:#dc3545;color:#fff;border:none;padding:5px;width:100%;cursor:pointer;">
+            View Cloud Log
+    </button>
+  </div>
+</div>
 
-    <!-- RIGHT SIDE PATCH NOTES BOX -->
-    <div class="right-side-box">
-        <h3 style="margin-top:0; color: #333;">📢 Patch Notes</h3>
-        <p style="font-size: 14px; color: #555; line-height: 1.4; margin-bottom: 0;">
-            Welcome to the arcade! Type your custom announcements, patch notes, updates, or rules here.
-        </p>
-    </div>
+<!-- RIGHT BAR -->
+<div class="right-side-box">
+  <h3 style="margin:0 0 5px 0;">Notes</h3>
+  <p style="font-size:13px;color:#555;margin:0;">
+    Welcome to the arcade! Custom notes go here.
+  </p>
+</div>
 
-    <h1>My Game Collection</h1>
-    <p>Click a card below to play my creations!</p>
+<h1>My Game Collection</h1>
+<p>Select a card below to play:</p>
 
-    <!-- YOUR 7 GAME CARDS -->
-    <div class="game-box"><h2 class="game-title">Cuphead</h2><p class="game-description">2D Platformer shooter.</p><a href="https://reheheheheehe.github.io/cuphead-rehe/" class="play-btn" target="_blank">Play</a></div>
-    <div class="game-box"><h2 class="game-title">Celeste</h2><p class="game-description">Climb the mountain.</p><a href="https://reheheheheehe.github.io/Celeste/" class="play-btn" target="_blank">Play</a></div>
-    <div class="game-box"><h2 class="game-title">Deltarune</h2><p class="game-description">Deltarune chapters 1-4.</p><a href="https://reheheheheehe.github.io/Deltarune/" class="play-btn" target="_blank">Play</a></div>
-    <div class="game-box"><h2 class="game-title">Minecraft</h2><p class="game-description">Mine and Craft.</p><a href="https://reheheheheehe.github.io/Minecraft/" class="play-btn" target="_blank">Play</a></div>
-    <div class="game-box"><h2 class="game-title">Doom</h2><p class="game-description">Shoot demons.</p><a href="https://reheheheheehe.github.io/WebDOOM/" class="play-btn" target="_blank">Play</a></div>
-    <div class="game-box"><h2 class="game-title">placeholder</h2><p class="game-description">No game here yet!</p><a href="#" class="play-btn" target="_blank">Play</a></div>
-    <div class="game-box"><h2 class="game-title">placeholder</h2><p class="game-description">No game here yet!</p><a href="#" class="play-btn" target="_blank">Play</a></div>
+<!-- CARDS -->
+<div class="game-box">
+  <h2 class="game-title">Cuphead</h2>
+  <p class="game-description">2D Platformer shooter.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
 
-    <!-- VISITOR COUNTER BOX -->
-    <div style="margin: 30px auto; text-align: center; font-family: sans-serif; background: #ffffff; max-width: 200px; padding: 15px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-        <p style="font-size: 13px; color: #666; margin: 0 0 5px 0; text-transform: uppercase; letter-spacing: 1px;">Your Visits</p>
-        <span id="visit-count" style="font-size: 24px; font-weight: bold; color: #007bff;">1</span>
-    </div>
+<div class="game-box">
+  <h2 class="game-title">Celeste</h2>
+  <p class="game-description">Climb the mountain.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
 
-    <!-- UNIVERSAL DATABASE ENGINE -->
-    <script>
-        // CONFIGURATION
-        var allowedNames = ["angus", "george", "xavier", "oliver", "charlie", "james", "abel", "hudson", "cameron"];       
-        var adminName = "administrator";          
-        var unbanPassword = "Elpenguin0";   
+<div class="game-box">
+  <h2 class="game-title">Deltarune</h2>
+  <p class="game-description">Deltarune chapters 1-4.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
 
-        // REMEMBER TO RE-PASTE YOUR CLOUD DATABASE CREDENTIALS HERE
-        var jsonBinId = "6a3c73f9da38895dfefa6193"; 
-        var jsonBinKey = "$2a$10$3uE/decpe1BRW7v9GN055Oj7VAmP1miZhZRpKcrVipoX9KZoLsyhy";
+<div class="game-box">
+  <h2 class="game-title">Minecraft</h2>
+  <p class="game-description">Mine and Craft.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
 
-        window.showUniversalLog = function() {
-            fetch(`https://jsonbin.io{jsonBinId}/latest`, {
-                method: 'GET',
-                headers: { 
-                    "X-Master-Key": jsonBinKey,
-                    "X-Bin-Meta": "false" 
-                }
-            })
-            .then(res => {
-                if(!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(data => {
-                var list = data.blockedAttempts || [];
-                alert(list.length > 0 ? "🌍 CLOUD FAIL LOGS:\n" + list.join("\n") : "No cloud logs yet!");
-            })
-            .catch(() => alert("Database connection failed. Check your Master Key or Bin ID."));
-        };
+<div class="game-box">
+  <h2 class="game-title">Doom</h2>
+  <p class="game-description">Shoot demons.</p>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+</div>
 
-        function logAttemptToCloud(badName) {
-            fetch(`https://jsonbin.io{jsonBinId}/latest`, {
-                method: 'GET',
-                headers: { 
-                    "X-Master-Key": jsonBinKey,
-                    "X-Bin-Meta": "false"
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                var currentList = data.blockedAttempts || [];
-                var timestamp = new Date().toLocaleTimeString();
-                currentList.push(`- [${timestamp}] Tried name: '${badName}'`);
+<div class="game-box">
+  <h2 class="game-title">placeholder</h2>
+  <p class="game-description">No game here yet!</p>
+  <a href="#" class="play-btn" target="_blank">Play</a>
+</div>
 
-                fetch(`https://jsonbin.io{jsonBinId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Master-Key': jsonBinKey,
-                        'X-Bin-Meta': 'false'
-                    },
-                    body: JSON.stringify({ blockedAttempts: currentList })
-                });
-            });
-        }
+<div class="game-box">
+  <h2 class="game-title">placeholder</h2>
+  <p class="game-description">No game here yet!</p>
+  <a href="#" class="play-btn" target="_blank">Play</a>
+</div>
 
-        window.tryUnban = function() {
-            var enteredPass = prompt("Enter Password:");
-            if (enteredPass !== null && enteredPass.trim() === unbanPassword) {
-                localStorage.removeItem("banned_user");
-                alert("Block lifted!");
-                location.reload();
-            } else if (enteredPass !== null) {
-                alert("Incorrect Password.");
-            }
-        };
+<!-- COUNTER -->
+<div style="margin:20px auto;background:#fff;max-width:160px;padding:10px;border-radius:8px;">
+  <p style="font-size:12px;margin:0;">Visits</p>
+  <span id="visit-count" style="font-size:20px;font-weight:bold;color:#007bff;">1</span>
+</div>
 
-        window.secretLogout = function() {
-            var logoutPassword = "Elpenguin0"; 
-            var enteredPass = prompt("Admin Authorization Required:\nEnter Logout Password:");
-            if (enteredPass !== null) {
-                if (enteredPass.trim() === logoutPassword) {
-                    localStorage.removeItem("my_website_visits"); 
-                    alert("Authorization Successful. Logging out...");
-                    location.reload();
-                } else {
-                    alert("Incorrect Password. Access Denied.");
-                }
-            }
-        };
+<!-- SYSTEM ENGINE -->
+<script>
+  var allowedNames = [
+    "angus", "george", "xavier", 
+    "oliver", "charlie", "james", 
+    "abel", "hudson", "cameron"
+  ]; 
+  var adminName = "administrator"; 
+  var unbanPassword = "Elpenguin0"; 
 
-        function updateCounter() {
-            let count = localStorage.getItem('my_website_visits');
-            count = count ? parseInt(count) + 1 : 1;
-            localStorage.setItem('my_website_visits', count);
-            if(document.getElementById('visit-count')) { document.getElementById('visit-count').innerText = count; }
-        }
+  // PASTE CLOUD KEYS HERE
+  var jsonBinId = "6a3c73f9da38895dfefa6193"; 
+  var jsonBinKey = "$2a$10$3uE/decpe1BRW7v9GN055Oj7VAmP1miZhZRpKcrVipoX9KZoLsyhy";
 
-        if (localStorage.getItem("banned_user") === "true") {
-            document.body.innerHTML = '<div style="font-family:sans-serif; text-align:center; margin-top:100px;"><h1 style="color:red; cursor:pointer;" onclick="window.tryUnban()">❌ Access Permanently Denied</h1><small>(Click title to unban)</small></div>';
-        } else {
-            var visitorName = prompt("Please enter your username:");
-            if (visitorName === null || visitorName.trim() === "") {
-                document.body.innerHTML = "<h1 style='text-align:center; margin-top:100px; font-family:sans-serif;'>🔒 Access Denied</h1><p style='text-align:center; font-family:sans-serif;'>You must refresh and type a valid name to enter.</p>";
-            } else {
-                var cleanedName = visitorName.trim().toLowerCase();
-                if (cleanedName === adminName) {
-                    alert("Welcome Admin.");
-                    document.getElementById("profile-content").innerHTML = "<strong>Role:</strong> Admin<br><strong>User:</strong> " + visitorName;
-                    document.getElementById("admin-area").style.display = "block";
-                    updateCounter();
+  window.showUniversalLog = function() {
+    var base = 'https://jsonbin.io';
+    fetch(base + jsonBinId + '/latest', {
+      method: 'GET',
+      headers: { "X-Master-Key": jsonBinKey, "X-Bin-Meta": "false" }
+    })
+    .then(res => {
+      if(!res.ok) throw new Error();
+      return res.json();
+    })
+    .then(data => {
+      var list = data.blockedAttempts || data.record?.blockedAttempts || data;
+      if (Array.isArray(list)) {
+        alert(list.length > 0 ? "🌍 LOGS:\n" + list.join("\n") : "Empty!");
+      } else {
+        alert("Connected, but layout empty!");
+      }
+    })
+    .catch(() => alert("Cloud connection failed."));
+  };
 
-                                    } else if (allowedNames.includes(cleanedName)) {
-                    alert("Welcome Player.");
-                    document.getElementById("profile-content").innerHTML = "<strong>Role:</strong> Player<br><strong>User:</strong> " + visitorName;
-                    updateCounter();
-                } else {
-                    logAttemptToCloud(visitorName);
-                    localStorage.setItem("banned_user", "true");
-                    alert("Banned!");
-                    location.reload();
-                }
-            }
-        }
-    </script>
+  function logAttemptToCloud(badName) {
+    var base = 'https://jsonbin.io' + jsonBinId;
+    fetch(base + '/latest', {
+      method: 'GET',
+      headers: { "X-Master-Key": jsonBinKey, "X-Bin-Meta": "false" }
+    })
+    .then(res => res.json())
+    .then(data => {
+      var arr = data.blockedAttempts || data.record?.blockedAttempts || [];
+      var time = new Date().toLocaleTimeString();
+      arr.push("- [" + time + "] Name: '" + badName + "'");
+      fetch(base, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': jsonBinKey, 'X-Bin-Meta': 'false' },
+        body: JSON.stringify({ blockedAttempts: arr })
+      });
+    })
+    .catch(() => {
+      var arr = [];
+      var time = new Date().toLocaleTimeString();
+      arr.push("- [" + time + "] Name: '" + badName + "'");
+      fetch(base, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': jsonBinKey, 'X-Bin-Meta': 'false' },
+        body: JSON.stringify({ blockedAttempts: arr })
+      });
+    });
+  }
+
+  window.tryUnban = function() {
+    var p = prompt("Enter Password:");
+    if (p !== null && p.trim() === unbanPassword) {
+      localStorage.removeItem("banned_user");
+      alert("Unlocked!");
+      location.reload();
+    } else if (p !== null) {
+      alert("Wrong password.");
+    }
+  };
+
+  window.secretLogout = function() {
+    var p = prompt("Enter Logout Password:");
+    if (p !== null) {
+      if (p.trim() === unbanPassword) {
+        localStorage.removeItem("my_website_visits"); 
+        alert("Logged out.");
+        location.reload();
+      } else {
+        alert("Wrong password.");
+      }
+    }
+  };
+
+  function updateCounter() {
+    let c = localStorage.getItem('my_website_visits');
+    c = c ? parseInt(c) + 1 : 1;
+    localStorage.setItem('my_website_visits', c);
+    var el = document.getElementById('visit-count');
+    if(el) { el.innerText = c; }
+  }
+
+  if (localStorage.getItem("banned_user") === "true") {
+    var bh = '<div style="font-family:sans-serif;text-align:center;margin-top:100px;">' +
+             '<h1 style="color:red;cursor:pointer;" onclick="window.tryUnban()">❌ Banned</h1>' +
+             '<small>(Click to unban)</small></div>';
+    document.body.innerHTML = bh;
+  } else {
+    var name = prompt("Username:");
+    if (name === null || name.trim() === "") {
+      document.body.innerHTML = "<h1 style='margin-top:100px;'>🔒 Access Denied</h1>";
+    } else {
+      var cn = name.trim().toLowerCase();
+      if (cn === adminName) {
+        alert("Welcome Admin.");
+        document.getElementById("profile-content").innerHTML = "<b>Admin</b><br>" + name;
+        document.getElementById("admin-area").style.display = "block";
+        updateCounter();
+      } else if (allowedNames.includes(cn)) {
+        alert("Welcome Player.");
+        document.getElementById("profile-content").innerHTML = "<b>Player</b><br>" + name;
+        updateCounter();
+      } else {
+        logAttemptToCloud(name);
+        localStorage.setItem("banned_user", "true");
+        alert("Banned!");
+        location.reload();
+      }
+    }
+  }
+</script>
 </body>
 </html>
-
