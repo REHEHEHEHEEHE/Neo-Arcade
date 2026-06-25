@@ -27,6 +27,23 @@ window.signup = async () => {
   console.log(data);
   console.log(error);
 };
+  window.loginTest = async () => {
+  const { data, error } =
+    await supabase.auth.signInWithPassword({
+      email: "YOUR_EMAIL",
+      password: "YOUR_PASSWORD"
+    });
+
+  console.log("DATA:", data);
+  console.log("ERROR:", error);
+
+  alert(
+    error
+      ? error.message
+      : "Login successful"
+  );
+};
+  <button onclick="loginTest()">Login Test</button>
 </script>
 
 </body>
