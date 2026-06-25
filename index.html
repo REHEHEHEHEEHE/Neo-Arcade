@@ -190,7 +190,6 @@
 <script>
   var baseRestUrl = "https://supabase.co";
   
-  // SECURE MASTER BYPASS KEY PROPERLY LOADED
   var masterBypassKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
     "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlbmRsY2tqYnBxbGxiZnptb" +
     "3VqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjMzMzQwMi" +
@@ -200,7 +199,8 @@
   var restHeaders = {
     "apikey": masterBypassKey,
     "Authorization": "Bearer " + masterBypassKey,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Prefer": "return=representation"
   };
   
   var logoutPassword = "Elpenguin0";
@@ -279,6 +279,7 @@
       let users = await res.json();
 
       if (users && users.length > 0) {
+        // FIXED DATATARGET SLOTT: Targeting user position 0 parses individual dataset correctly
         var currentUser = users[0];
 
         if (currentUser.is_banned === true) {
@@ -297,7 +298,7 @@
         document.body.innerHTML = "<h1 style='margin-top:100px;font-family:sans-serif;'>🔒 Access Refused: Invalid Credentials</h1>";
       }
     } catch(e) {
-      document.body.innerHTML = "<h1 style='margin-top:100px;'>🔒 Network Driver Failure</h1>";
+      document.body.innerHTML = "<h1 style='margin-top:100px;font-family:sans-serif;'>🔒 Network Driver Failure</h1>";
     }
   }
 
