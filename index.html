@@ -16,10 +16,13 @@ const supabase = createClient(
 );
 
 window.signup = async () => {
-  const { data, error } = await supabase.auth.signUp({
-    email: "023896@oxley.nsw.edu.au",
-    password: "Password123!"
-  });
+  console.log("Signup clicked");
+
+  const { data, error } =
+    await supabase.auth.signUp({
+      email: "023896@oxley.nsw.edu.au",
+      password: "Password123!"
+    });
 
   console.log(data);
   console.log(error);
