@@ -223,7 +223,8 @@ var publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
        alert("Access Violation: Invalid Password.");
     }
   };
-
+  </script>
+  <script>
   async function loadAdminConsole(allUsers) {
     try {
       document.getElementById("admin-console").style.display = "block";
@@ -259,7 +260,8 @@ var publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
       document.getElementById("user-management-list").innerHTML = "Console log load error.";
     }
   }
-
+  </script>
+  <script>
   function updateCounter() {
     let c = localStorage.getItem('my_website_visits');
     c = c ? parseInt(c) + 1 : 1;
