@@ -75,7 +75,7 @@
         <div id="profile-content" onclick="window.secretLogout()" style="cursor: pointer; background: #fdfdfd; padding: 5px; border-radius: 4px;">Loading...</div>
         <small style="color:#999; display:block; margin-top:5px;">(Click profile text to log out)</small>
         <div id="admin-area" style="display: none; margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px;">
-            <button onclick="window.showErrorLog()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">View Error Log</button>
+            <button onclick="window.showUniversalLog()" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">View Universal Log</button>
         </div>
     </div>
 
@@ -105,12 +105,51 @@
         <span id="visit-count" style="font-size: 24px; font-weight: bold; color: #007bff;">1</span>
     </div>
 
-    <!-- CODE SYSTEM ENGINE -->
+    <!-- UNIVERSAL DATABASE ENGINE -->
     <script>
-        // CONFIGURATION WITH FIXED SYNTAX COMMAS
+        // CONFIGURATION
         var allowedNames = ["angus", "george", "xavier", "oliver", "charlie", "james", "abel", "hudson", "cameron"];       
         var adminName = "administrator";          
         var unbanPassword = "Elpenguin0";   
+
+        // PASTE YOUR CLOUD DATABASE CREDENTIALS HERE
+        var jsonBinId = "6a3c7193f5f4af5e292be2ba"; 
+        var jsonBinKey = "$2a$10$3uE/decpe1BRW7v9GN055Oj7VAmP1miZhZRpKcrVipoX9KZoLsyhy";
+
+        // Fetches logs from the cloud database to show the admin
+        window.showUniversalLog = function() {
+            fetch(`https://jsonbin.io{jsonBinId}/latest`, {
+                headers: { "X-Master-Key": jsonBinKey }
+            })
+            .then(res => res.json())
+            .then(data => {
+                var list = data.record.blockedAttempts;
+                alert(list.length > 0 ? "🌍 CLOUD FAIL LOGS:\n" + list.join("\n") : "No cloud logs yet!");
+            })
+            .catch(() => alert("Database connection failed."));
+        };
+
+        // Sends a bad login name up to the cloud database
+        function logAttemptToCloud(badName) {
+            fetch(`https://jsonbin.io{jsonBinId}/latest`, {
+                headers: { "X-Master-Key": jsonBinKey }
+            })
+            .then(res => res.json())
+            .then(data => {
+                var currentList = data.record.blockedAttempts;
+                var timestamp = new Date().toLocaleTimeString();
+                currentList.push(`- [${timestamp}] Tried name: '${badName}'`);
+
+                fetch(`https://jsonbin.io{jsonBinId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': jsonBinKey
+                    },
+                    body: JSON.stringify({ blockedAttempts: currentList })
+                });
+            });
+        }
 
         window.tryUnban = function() {
             var enteredPass = prompt("Enter Password:");
@@ -121,11 +160,6 @@
             } else if (enteredPass !== null) {
                 alert("Incorrect Password.");
             }
-        };
-
-        window.showErrorLog = function() {
-            var logs = localStorage.getItem("arcade_error_logs");
-            alert(logs ? "🚫 BLOCKED LOGS:\n" + logs : "No logs yet!");
         };
 
         window.secretLogout = function() {
@@ -167,14 +201,16 @@
                     document.getElementById("profile-content").innerHTML = "<strong>Role:</strong> Player<br><strong>User:</strong> " + visitorName;
                     updateCounter();
                 } else {
-                    var currentLogs = localStorage.getItem("arcade_error_logs") || "";
-                    localStorage.setItem("arcade_error_logs", currentLogs + "- " + visitorName + "\n");
+                                   
+                    // Log failed entry into the global cloud bin
+                    logAttemptToCloud(visitorName);
                     localStorage.setItem("banned_user", "true");
                     alert("Banned!");
-                    location.reload();
+                    location.reload(); 
                 }
             }
         }
     </script>
 </body>
 </html>
+
