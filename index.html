@@ -143,31 +143,31 @@
 <div class="game-box">
   <h2 class="game-title">Cuphead</h2>
   <p class="game-description">2D Platformer shooter.</p>
-  <a href="https://reheheheheehe.github.io/cuphead-rehe/" class="play-btn" target="_blank">Play</a>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Celeste</h2>
   <p class="game-description">Climb the mountain.</p>
-  <a href="https://reheheheheehe.github.io/Celeste/" class="play-btn" target="_blank">Play</a>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Deltarune</h2>
   <p class="game-description">Deltarune chapters 1-4.</p>
-  <a href="https://reheheheheehe.github.io/Deltarune/" class="play-btn" target="_blank">Play</a>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Minecraft</h2>
   <p class="game-description">Mine and Craft.</p>
-  <a href="https://reheheheheehe.github.io/Minecraft/" class="play-btn" target="_blank">Play</a>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Doom</h2>
   <p class="game-description">Shoot demons.</p>
-  <a href="https://ustymukhman.github.io/WebDOOM/public/" class="play-btn" target="_blank">Play</a>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
@@ -235,7 +235,7 @@
         var toggleBtn = document.createElement("button");
         toggleBtn.className = "admin-btn";
         toggleBtn.style.background = user.is_banned ? "#28a745" : "#dc3545";
-        toggleBtn.innerText = user.is_banned ? "Override (Unban)" : "Terminate (Ban)";
+        toggleBtn.innerText = user.is_banned ? "Override" : "Terminate";
         
         toggleBtn.onclick = async function() {
           await supabaseClientInstance.from('users').update({ is_banned: !user.is_banned }).eq('username', user.username);
@@ -275,6 +275,7 @@
       let { data: users, error } = await supabaseClientInstance.from('users').select('*').eq('username', cachedUser);
 
       if (!error && users && users.length > 0) {
+        // FIXED: Safely targets slot 0 to read the matching user array entry
         var currentUser = users[0];
 
         if (currentUser.is_banned === true) {
@@ -289,16 +290,19 @@
           if (currentUser.role === "admin") { loadAdminConsole(); }
         }
       } else {
+        // FIXED: Removed loop refresh script to completely prevent infinite webpage freezes
         alert("Access Refused: Signature not recognized.");
         localStorage.removeItem("active_user");
-        location.reload();
+        document.body.innerHTML = "<h1 style='margin-top:100px;'>🔒 Access Refused: Invalid Credentials</h1><p>Please reload and try again.</p>";
       }
     } catch(e) {
       document.body.innerHTML = "<h1 style='margin-top:100px;'>🔒 Core Net Driver Error</h1>";
     }
   }
 
+  // THIS IS THE EXACT SPOTT FOR THAT LINE:
   if(supabaseClientInstance) { runSystem(); }
 </script>
 </body>
 </html>
+
