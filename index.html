@@ -1,22 +1,30 @@
+<!DOCTYPE html>
 <html>
-  
+<head>
+  <title>Test</title>
+</head>
+<body>
 
-<script>
-const { data, error } =
-  await supabase.auth.signUp({
+<button onclick="signup()">Test Signup</button>
+
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const supabase = createClient(
+  "https://xendlckjbpqllbfzmouj.supabase.co",
+  "sb_publishable_Twcn4S7CVpv-WHCz063wcg_wvQPyKkB"
+);
+
+window.signup = async () => {
+  const { data, error } = await supabase.auth.signUp({
     email: "023896@oxley.nsw.edu.au",
     password: "Password123!"
   });
 
-console.log(data);
-console.log(error);
-
-alert(
-  error
-    ? error.message
-    : "Signup successful"
-);
-
+  console.log(data);
+  console.log(error);
+};
 </script>
-</html>
+
 </body>
+</html>
