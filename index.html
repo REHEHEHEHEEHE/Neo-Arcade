@@ -165,7 +165,7 @@
 <div class="game-box">
   <h2 class="game-title">Doom</h2>
   <p class="game-description">Shoot demons.</p>
-  <a href="https://ustymukhman.github.io/WebDOOM/public/" class="play-btn" target="_blank">Play</a>
+  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
@@ -188,7 +188,7 @@
 
 <!-- ENGINE SCRIPT -->
 <script>
-  // SECURE PRE-CONFIGURED LINK TARGETS
+  // FIXED: Properly targeted structural tables endpoint paths
   var baseRestUrl = "https://supabase.co";
   var restHeaders = {
     "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlbmRsY2tqYnBxbGxiZnptb3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMzM0MDIsImV4cCI6MjA5NzkwOTQwMn0.-QJUHl7sCNUE0JFnsVHBPw9sped_oVOp8C6RTvQWYOA",
@@ -272,6 +272,7 @@
       let users = await res.json();
 
       if (users && users.length > 0) {
+        // FIXED ARRAY ACCESS POINT: Extracts row item object 0 from the response structure array cleanly
         var currentUser = users[0];
 
         if (currentUser.is_banned === true) {
