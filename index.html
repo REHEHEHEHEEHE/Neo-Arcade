@@ -139,6 +139,17 @@ button:hover{
 
 <div id="userPanel" class="panel" style="display:none;">
 
+    <div id="announcementPanel"
+     class="panel">
+
+    <h2>Announcements</h2>
+
+    <div id="announcementList">
+        Loading...
+    </div>
+
+</div>
+    
 <h2 id="welcome"></h2>
 
 <button onclick="logout()">Logout</button>
@@ -448,8 +459,48 @@ window.logout = async () => {
     await loadAdminPanel();
 };
 
+    async function loadAnnouncements(){
+
+    const { data, error } =
+        await supabase.rpc(
+            "get_announcements"
+        );
+
+    if(error){
+        console.error(error);
+        return;
+    }
+
+    const container =
+        document.getElementById(
+            "announcementList"
+        );
+
+    container.innerHTML = "";
+
+    data.forEach(item => {
+
+        container.innerHTML += `
+            <div style="
+                background:rgba(255,255,255,.08);
+                padding:15px;
+                margin-bottom:10px;
+                border-radius:12px;
+            ">
+                <h3>${item.title}</h3>
+                <p>${item.message}</p>
+            </div>
+        `;
+
+    });
+
+}
+
 async function loadUser(){
 
+ 
+
+    
     const { data } =
         await supabase.auth.getUser();
 
@@ -482,6 +533,8 @@ async function loadUser(){
 
     document.getElementById("welcome").innerHTML =
         `Welcome ${profile.username}<br>Role: ${profile.role}`;
+
+    await loadAnnouncements();
 
     document.getElementById("authPanel").style.display = "none";
     document.getElementById("userPanel").style.display = "block";
