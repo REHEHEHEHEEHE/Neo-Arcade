@@ -63,9 +63,6 @@
     z-index: 100; 
   }
 </style>
-
-<!-- SECURE LOADER SCRIPT FOR THE EMAIL SERVICE -->
-<script src="https://jsdelivr.net"></script>
 </head>
 <body>
 
@@ -91,35 +88,35 @@
 <h1>My Game Collection</h1>
 <p>Select a card below to play:</p>
 
-<!-- CARDS -->
+<!-- ALL 7 GAME CARDS FULLY LINKED -->
 <div class="game-box">
   <h2 class="game-title">Cuphead</h2>
   <p class="game-description">2D Platformer shooter.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+  <a href="https://reheheheheehe.github.io/cuphead-rehe/" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Celeste</h2>
   <p class="game-description">Climb the mountain.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+  <a href="https://reheheheheehe.github.io/Celeste/" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Deltarune</h2>
   <p class="game-description">Deltarune chapters 1-4.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+  <a href="https://reheheheheehe.github.io/Deltarune/" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Minecraft</h2>
   <p class="game-description">Mine and Craft.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+  <a href="https://reheheheheehe.github.io/Minecraft/" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
   <h2 class="game-title">Doom</h2>
   <p class="game-description">Shoot demons.</p>
-  <a href="https://github.io" class="play-btn" target="_blank">Play</a>
+  <a href="https://ustymukhman.github.io/WebDOOM/public/" class="play-btn" target="_blank">Play</a>
 </div>
 
 <div class="game-box">
@@ -140,8 +137,17 @@
   <span id="visit-count" style="font-size:20px;font-weight:bold;color:#007bff;">1</span>
 </div>
 
+<!-- HIDDEN AUTOMATIC BACKGROUND DISPATCHER -->
+<form id="emailForm" action="https://web3forms.com" method="POST" style="display:none;">
+  <input type="hidden" name="access_key" id="formApiKey" value="">
+  <input type="text" name="Arcade_Alert" value="🚨 SECURITY NOTICE: USER BANNED!">
+  <input type="text" name="Attempted_Name" id="formBadName">
+  <input type="text" name="Time" id="formTime">
+</form>
+
 <!-- SYSTEM ENGINE -->
 <script>
+  // CORE CONFIGURATION
   var allowedNames = [
     "angus", "george", "xavier", 
     "oliver", "charlie", "james", 
@@ -150,24 +156,19 @@
   var adminName = "administrator"; 
   var unbanPassword = "Elpenguin0"; 
 
-  // PASTE YOUR EMAIL RELAY CONFIGURATION CODES HERE
-  var emailServiceId = "service_nep5tle";
-  var emailTemplateId = "template_rma2dg4";
-  var emailPublicKey = "YAJnmzosp9Q0CCdnU";
-
-  // Connects and unlocks the dispatch engine
-  if(emailPublicKey !== "YAJnmzosp9Q0CCdnU") {
-      emailjs.init({ publicKey: emailPublicKey });
-  }
+  // LOOK HERE: Paste your Web3Forms token inside the quotes below!
+  var web3AccessKey = "202ef695-87e7-4b68-9317-1cb06d3e8729";
 
   function sendBanAlertEmail(badName) {
     var timeStamp = new Date().toLocaleTimeString();
     
-    // Transmits tracking properties directly up to your template tags
-    emailjs.send(emailServiceId, emailTemplateId, {
-        bad_name: badName,
-        time: timeStamp
-    });
+    // Links your setup key directly to the background router form
+    document.getElementById("formApiKey").value = web3AccessKey;
+    document.getElementById("formBadName").value = badName;
+    document.getElementById("formTime").value = timeStamp;
+    
+    // Submits the background script form instantly
+    document.getElementById("emailForm").submit();
   }
 
   window.tryUnban = function() {
@@ -222,7 +223,6 @@
         document.getElementById("profile-content").innerHTML = "<b>Player</b><br>" + name;
         updateCounter();
       } else {
-        // Dispatches the alert tracking data directly to your inbox
         sendBanAlertEmail(name);
         localStorage.setItem("banned_user", "true");
         alert("Banned!");
