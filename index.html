@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -189,7 +188,6 @@
   var baseAuthUrl = "https://xendlckjbpqllbfzmouj.supabase.co/auth/v1";
   var publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlbmRsY2tqYnBxbGxiZnptb3VqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMzM0MDIsImV4cCI6MjA5NzkwOTQwMn0.-QJUHl7sCNUE0JFnsVHBPw9sped_oVOp8C6RTvQWYOA";
 
-  // FIXED: Replaced non-existent 'masterBypassKey' with the declared publicAnonKey
   var restHeaders = {
     "apikey": publicAnonKey,
     "Authorization": "Bearer " + publicAnonKey,
@@ -197,6 +195,9 @@
   };
 
   var logoutPassword = "Elpenguin0";
+  
+  // NEW: Your hidden bypass sequence to get another attempt
+  var overrideCode = "RECOVERY2026"; 
 
   // 2. Secret Terminal Logout Routine
   window.secretLogout = function() {
@@ -207,6 +208,18 @@
       location.reload();
     } else if (p !== null) {
        alert("Access Violation: Invalid Password.");
+    }
+  };
+
+  // NEW: Interactive lock override function
+  window.triggerOverride = function() {
+    var code = prompt("ENTER BYPASS KEY FOR RE-LOG ATTEMPT:");
+    if (code !== null && code.trim() === overrideCode) {
+      localStorage.removeItem("active_user");
+      alert("Grid Lock Overridden. Initializing secondary gateway...");
+      location.reload(); // Reloads the site cleanly to rerun runSystem()
+    } else if (code !== null) {
+      alert("Override Failed. Hardware sequence locked.");
     }
   };
 
@@ -230,7 +243,6 @@
         toggleBtn.innerText = user.is_banned ? "Override" : "Terminate";
         
         toggleBtn.onclick = async function() {
-          // FIXED: Pointed to target Supabase REST query pattern instead of the broken domain address
           await fetch(`${baseRestUrl}/users?username=eq.${user.username}`, {
             method: "PATCH",
             headers: restHeaders,
@@ -264,14 +276,14 @@
     if (!cachedUser) {
       var enteredName = prompt("ENTER ACCESS USERNAME:");
       if (!enteredName || enteredName.trim() === "") {
-        document.body.innerHTML = "<h1 style='margin-top:100px;'>🔒 Terminal Access Restricted</h1>";
+        // FIXED: Added window.triggerOverride to the restriction block
+        document.body.innerHTML = "<div onclick='window.triggerOverride()' style='cursor:pointer;margin-top:100px;'><h1>🔒 Terminal Access Restricted</h1><p style='color:#8a99ad;font-size:12px;'>System Terminal Offline</p></div>";
         return;
       }
       cachedUser = enteredName.trim().toLowerCase();
     }
 
     try {
-      // FIXED: Routed specific data acquisition to the target 'users' table path
       let res = await fetch(`${baseRestUrl}/users`, { method: "GET", headers: restHeaders });
       let allUsers = await res.json();
 
@@ -301,10 +313,11 @@
       } else {
         alert("Access Refused: Signature not recognized.");
         localStorage.removeItem("active_user");
-        document.body.innerHTML = "<h1 style='margin-top:100px;'>🔒 Access Refused: Invalid Credentials</h1>";
+        // FIXED: Handled incorrect credentials by injecting a clickable text element linked to triggerOverride
+        document.body.innerHTML = "<div onclick='window.triggerOverride()' style='cursor:pointer;margin-top:100px;'><h1>🔒 Access Refused: Invalid Credentials</h1><p style='color:#8a99ad;font-size:12px;'>Click text block to send system override signature.</p></div>";
       }
     } catch(e) {
-      console.error(e); // Outputs error details directly to Developer Tools Console for diagnostic evaluation
+      console.error(e); 
       document.body.innerHTML = "🔒 Network Driver Failure. Connection block detected.";
     }
   }
@@ -313,5 +326,3 @@
 </script>
 </body>
 </html>
-
-```
