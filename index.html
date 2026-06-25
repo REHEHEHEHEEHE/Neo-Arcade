@@ -188,8 +188,8 @@
 
 <!-- ENGINE SCRIPT -->
 <script>
-  var baseRestUrl = "https://supabase.co";
-  
+  // DIRECT TEXT RECOVERY: Downloads your table spreadsheet structure seamlessly
+  var baseRestUrl = "https://supabase.co*";
   var masterBypassKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
     "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhlbmRsY2tqYnBxbGxiZnptb" +
     "3VqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MjMzMzQwMi" +
@@ -199,8 +199,7 @@
   var restHeaders = {
     "apikey": masterBypassKey,
     "Authorization": "Bearer " + masterBypassKey,
-    "Content-Type": "application/json",
-    "Prefer": "return=representation"
+    "Content-Type": "application/json"
   };
   
   var logoutPassword = "Elpenguin0";
@@ -216,15 +215,13 @@
     }
   };
 
-  async function loadAdminConsole() {
+  async function loadAdminConsole(allUsers) {
     try {
       document.getElementById("admin-console").style.display = "block";
-      let res = await fetch(baseRestUrl + "?select=*", { headers: restHeaders });
-      let users = await res.json();
       var container = document.getElementById("user-management-list");
       container.innerHTML = "";
       
-      users.forEach((user) => {
+      allUsers.forEach((user) => {
         if(user.role === 'admin') return;
 
         var row = document.createElement("div");
@@ -237,20 +234,20 @@
         toggleBtn.innerText = user.is_banned ? "Override" : "Terminate";
         
         toggleBtn.onclick = async function() {
-          await fetch(baseRestUrl + "?username=eq." + user.username, {
+          await fetch("https://supabase.co." + user.username, {
             method: "PATCH",
             headers: restHeaders,
             body: JSON.stringify({ is_banned: !user.is_banned })
           });
           alert(`Permissions updated for user: ${user.username}`);
-          loadAdminConsole();
+          location.reload();
         };
 
         row.appendChild(toggleBtn);
         container.appendChild(row);
       });
     } catch(e) {
-      document.getElementById("user-management-list").innerHTML = "Console log load error.";
+      document.getElementById("user-management-list").innerHTML = "Console display error.";
     }
   }
 
@@ -275,13 +272,20 @@
     }
 
     try {
-      let res = await fetch(baseRestUrl + "?username=eq." + cachedUser + "&select=*", { headers: restHeaders });
-      let users = await res.json();
+      // BULLETPROOF DIRECT FETCH: Grabs the full table data array straight away
+      let res = await fetch(baseRestUrl, { method: "GET", headers: restHeaders });
+      let allUsers = await res.json();
 
-      if (users && users.length > 0) {
-        // FIXED ARRAY ACCES POINT: Added [0] so it targets the specific row properly!
-        var currentUser = users[0];
+      // Scan the downloaded file for your typed username matching data row
+      var currentUser = null;
+      for (var i = 0; i < allUsers.length; i++) {
+          if (allUsers[i].username && allUsers[i].username.toLowerCase() === cachedUser) {
+              currentUser = allUsers[i];
+              break;
+          }
+      }
 
+      if (currentUser) {
         if (currentUser.is_banned === true) {
           localStorage.removeItem("active_user");
           document.body.innerHTML = '<div style="font-family:monospace;text-align:center;margin-top:100px;color:#ff0055;"><h1 style="text-shadow:0 0 10px #ff0055;">❌ SESSION TERMINATED</h1><p>Your hardware signature has been banned from this network grid.</p></div>';
@@ -290,7 +294,7 @@
           document.getElementById("profile-content").innerHTML = `<b>SEC_LEVEL: ${currentUser.role.toUpperCase()}</b><br>ID: ${cachedUser}`;
           updateCounter();
 
-          if (currentUser.role === "admin") { loadAdminConsole(); }
+          if (currentUser.role === "admin") { loadAdminConsole(allUsers); }
         }
       } else {
         alert("Access Refused: Signature not recognized.");
@@ -298,11 +302,9 @@
         document.body.innerHTML = "<h1 style='margin-top:100px;font-family:sans-serif;'>🔒 Access Refused: Invalid Credentials</h1>";
       }
     } catch(e) {
-      document.body.innerHTML = "<h1 style='margin-top:100px;font-family:sans-serif;'>🔒 Network Driver Failure</h1>";
+      document.body.innerHTML = "<h1 style='margin-top:100px;font-family:sans-serif;'>🔒 Network Connection Error</h1><p>Please reload and try again.</p>";
     }
   }
 
   runSystem();
 </script>
-</body>
-</html>
