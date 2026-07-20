@@ -227,7 +227,7 @@ window.logout = async () => {
     await loadAdminPanel();
 };
 
-}
+
 
     async function loadAnnouncements()
 
