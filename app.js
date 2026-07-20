@@ -201,7 +201,7 @@ window.logout = async () => {
     await loadAdminPanel();
         await loadLeaderboard();
 };
-await loadLeaderboard();
+
     window.toggleBan = async (
     userId,
     currentRole,
@@ -226,8 +226,6 @@ await loadLeaderboard();
 
     await loadAdminPanel();
 };
-// Load the leaderboard for everyone
-await loadLeaderboard();
 
 }
 
@@ -376,7 +374,7 @@ profile.visits++;
     document.getElementById("authPanel").style.display = "none";
     document.getElementById("userPanel").style.display = "block";
 
-    if(profile.role === "admin"){
+   if(profile.role === "admin"){
 
     document.getElementById(
         "adminBadge"
@@ -387,19 +385,14 @@ profile.visits++;
     ).style.display = "block";
 
     await loadAdminPanel();
+}
+
+// Everyone gets the leaderboard
+await loadLeaderboard();
+
+}
         async function loadLeaderboard(){
-
-    const { data, error } =
-        await supabase
-            .from("profiles")
-            .select("username, visits")
-            .order("visits", {
-                ascending:false
-            });
-
-    if(error){
-        console.error(error);
-        return;
+    return;
     }
 
     const body =
