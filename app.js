@@ -229,7 +229,7 @@ await loadLeaderboard();
 // Load the leaderboard for everyone
 await loadLeaderboard();
 
-}
+
 
     async function loadAnnouncements(){
 
