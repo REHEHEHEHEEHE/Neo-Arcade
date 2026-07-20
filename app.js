@@ -95,6 +95,7 @@ window.login = async () => {
 
     await loadUser();
 };
+await loadLeaderboard();
 
 window.logout = async () => {
 
@@ -198,6 +199,7 @@ window.logout = async () => {
     }
 
     await loadAdminPanel();
+        await loadLeaderboard();
 };
     window.toggleBan = async (
     userId,
@@ -342,7 +344,14 @@ async function loadUser(){
         console.error(error);
         return;
     }
+await supabase
+    .from("profiles")
+    .update({
+        visits: profile.visits + 1
+    })
+    .eq("id", user.id);
 
+profile.visits++;
     if(profile.is_banned){
 
         alert("This account has been banned.");
@@ -373,6 +382,41 @@ async function loadUser(){
     ).style.display = "block";
 
     await loadAdminPanel();
+        async function loadLeaderboard(){
+
+    const { data, error } =
+        await supabase
+            .from("profiles")
+            .select("username, visits")
+            .order("visits", {
+                ascending:false
+            });
+
+    if(error){
+        console.error(error);
+        return;
+    }
+
+    const body =
+        document.getElementById(
+            "leaderboardBody"
+        );
+
+    body.innerHTML = "";
+
+    data.forEach((player,index)=>{
+
+        body.innerHTML += `
+            <tr>
+                <td>#${index+1}</td>
+                <td>${player.username}</td>
+                <td>${player.visits}</td>
+            </tr>
+        `;
+
+    });
+
+}
 }
 }
 
@@ -383,3 +427,4 @@ const {
 if(session){
     await loadUser();
 }
+
