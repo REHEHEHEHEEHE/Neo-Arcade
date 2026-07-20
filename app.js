@@ -229,7 +229,7 @@ window.logout = async () => {
 
 }
 
-    async function loadAnnouncements(){
+    async function loadAnnouncements()
 
     const { data, error } =
         await supabase.rpc(
