@@ -95,7 +95,6 @@ window.login = async () => {
 
     await loadUser();
 };
-await loadLeaderboard();
 
 window.logout = async () => {
 
@@ -201,6 +200,7 @@ window.logout = async () => {
     await loadAdminPanel();
         await loadLeaderboard();
 };
+await loadLeaderboard();
     window.toggleBan = async (
     userId,
     currentRole,
