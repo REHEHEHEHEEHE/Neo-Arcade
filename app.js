@@ -96,6 +96,7 @@ window.login = async () => {
     await loadUser();
 };
 
+
 window.logout = async () => {
 
     await supabase.auth.signOut();
@@ -225,6 +226,10 @@ await loadLeaderboard();
 
     await loadAdminPanel();
 };
+// Load the leaderboard for everyone
+await loadLeaderboard();
+
+}
 
     async function loadAnnouncements(){
 
@@ -419,7 +424,37 @@ profile.visits++;
 }
 }
 }
+async function loadLeaderboard() {
 
+    const { data, error } = await supabase
+        .from("profiles")
+        .select("username, visits")
+        .order("visits", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const body = document.getElementById("leaderboardBody");
+
+    if (!body) return;
+
+    body.innerHTML = "";
+
+    data.forEach((player, index) => {
+
+        body.innerHTML += `
+            <tr>
+                <td>#${index + 1}</td>
+                <td>${player.username}</td>
+                <td>${player.visits ?? 0}</td>
+            </tr>
+        `;
+
+    });
+
+}
 const {
     data:{session}
 } = await supabase.auth.getSession();
