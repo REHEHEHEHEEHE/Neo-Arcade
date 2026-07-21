@@ -1,147 +1,404 @@
-<!DOCTYPE html><html lang="en"><head><link rel="icon" type="image/png" href="/imresizer-meme.png"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Neo Arcade v2</title><link rel="stylesheet" href="style.css"></head><body><div class="site-header">
+<!DOCTYPE html>
 
-    <img
-        src="neoarcade-logo.png"
-        alt="Neo Arcade Logo"
-        class="site-logo">
+<html lang="en">
 
-    <h1>Neo Arcade v2</h1>
+<head>
 
-</div><div id="authPanel" class="panel"><h2>Register</h2><input id="regUsername" placeholder="Username"><input id="regEmail" placeholder="Email"><input id="regPassword" type="password" placeholder="Password"><button onclick="register()">Register</button><hr><h2>Login</h2><input id="loginUsername" placeholder="Username"><input id="loginPassword" type="password" placeholder="Password"><button onclick="login()">Login</button></div><div id="userPanel" class="panel" style="display:none;"><div id="announcementPanel" class="panel"><h2>Announcements</h2><div id="announcementList">Loading...</div><div id="leaderboardPanel" class="panel">
+<link rel="icon" type="image/png" href="/imresizer-meme.png">
 
-    <h2>🏆 Most Active Players</h2>
+<meta charset="UTF-8">
 
-    <table id="leaderboardTable">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Username</th>
-                <th>Visits</th>
-            </tr>
-        </thead>
+<title>Neo Arcade v2</title>
 
-        <tbody id="leaderboardBody">
-        </tbody>
+<link rel="stylesheet" href="style.css">
 
-    </table>
+</head>
 
-</div></div><h2 id="welcome"></h2><div id="profilePanel" class="panel">
+<body>
 
-    <h2>👤 My Profile</h2>
+<div class="site-header">
 
-    <img
-        id="avatarPreview"
-        src="https://placehold.co/120x120/png"
-        width="120"
-        height="120"
-        style="border-radius:50%;margin-bottom:15px;"
-    >
+```
+<img
+    src="neoarcade-logo.png"
+    alt="Neo Arcade Logo"
+    class="site-logo">
 
-    <label><strong>Avatar</strong></label>
+<h1>Neo Arcade v2</h1>
+```
 
-<input
-    type="file"
-    id="avatarFile"
-    accept="image/png,image/jpeg,image/webp,image/gif">
+</div>
+
+<div id="authPanel" class="panel">
+
+<h2>Register</h2>
+
+<input id="regUsername" placeholder="Username">
+
+<input id="regEmail" placeholder="Email">
+
+<input id="regPassword" type="password" placeholder="Password">
+
+<button onclick="register()">
+Register
+</button>
+
+<hr>
+
+<h2>Login</h2>
+
+<input id="loginUsername" placeholder="Username">
+
+<input id="loginPassword" type="password" placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+</div>
+
+<div id="userPanel" class="panel" style="display:none;">
+
+<div id="announcementPanel" class="panel">
+
+<h2>Announcements</h2>
+
+<div id="announcementList">
+Loading...
+</div>
+
+<div id="leaderboardPanel" class="panel">
+
+<h2>
+🏆 Most Active Players
+</h2>
+
+<table id="leaderboardTable">
+
+<thead>
+
+<tr>
+
+<th>
+Rank
+</th>
+
+<th>
+Username
+</th>
+
+<th>
+Visits
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="leaderboardBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<h2 id="welcome"></h2>
+
+<div id="profilePanel" class="panel">
+
+<h2>
+👤 My Profile
+</h2>
+
+<img
+ id="avatarPreview"
+ src="https://placehold.co/150x150"
+ width="150"
+ height="150"
+ style="
+ border-radius:50%;
+ object-fit:cover;
+ border:4px solid #4ea3ff;
+ ">
 
 <br><br>
 
-<img
-    id="avatarPreview"
-    src="https://placehold.co/150x150"
-    width="150"
-    height="150"
-    style="
-        border-radius:50%;
-        object-fit:cover;
-        border:4px solid #4ea3ff;
-    ">
-    >
+<label>
+<strong>Avatar</strong>
+</label>
 
-    <select id="favoriteGame">
+<input
+ type="file"
+ id="avatarFile"
+ accept="image/png,image/jpeg,image/webp,image/gif">
 
-        <option value="">Favourite Game</option>
+<br><br>
 
-        <option>Celeste</option>
-        <option>Cuphead</option>
-        <option>Deltarune</option>
-        <option>DOOM</option>
-        <option>Minecraft</option>
-        <option>Terraria</option>
-        <option>Hollow Knight</option>
-        <option>Kosmik's Site</option>
+<select id="favoriteGame">
 
-    </select>
+<option value="">
+Favourite Game
+</option>
 
-    <textarea
-        id="bio"
-        placeholder="Tell everyone about yourself..."
-        rows="5"
-    ></textarea>
+<option>
+Celeste
+</option>
 
-    <button onclick="saveProfile()">
-        Save Profile
-    </button>
+<option>
+Cuphead
+</option>
 
-</div><button onclick="logout()">Logout</button><div id="adminBadge" style="display:none;"><h3>Administrator</h3></div><div id="adminPanel" style="display:none;margin-top:20px;"><h2>Admin Panel</h2><h3>Create Announcement</h3><input id="announcementTitle" placeholder="Announcement title"><textarea id="announcementMessage" placeholder="Announcement message"></textarea><button onclick="createAnnouncement()">Post Announcement</button><table id="userTable"><thead><tr><th>Username</th><th>Role</th><th>Banned</th><th>Actions</th></tr></thead><tbody id="userTableBody"></tbody></table></div><div class="game-grid">
+<option>
+Deltarune
+</option>
 
-    <!-- 1 -->
-    <div class="game">
-        <a href="https://reheheheheehe.github.io/Celeste/" target="_blank">
-            <img src="celeste cover art.jpeg" alt="Celeste">
-            <h3>Celeste</h3>
-        </a>
-    </div>
+<option>
+DOOM
+</option>
 
-    <!-- 2 -->
-    <div class="game">
-        <a href="https://reheheheheehe.github.io/cuphead-rehe/" target="_blank">
-            <img src="cuphead cover art.png" alt="Cuphead">
-            <h3>Cuphead</h3>
-        </a>
-    </div>
+<option>
+Minecraft
+</option>
 
-    <!-- 3 -->
-    <div class="game">
-        <a href="https://reheheheheehe.github.io/Deltarune/" target="_blank">
-            <img src="deltarune cover art.jpeg" alt="Deltarune">
-            <h3>Deltarune</h3>
-        </a>
-    </div>
+<option>
+Terraria
+</option>
 
-    <!-- 4 -->
-    <div class="game">
-        <a href="https://ustymukhman.github.io/WebDOOM/public/" target="_blank">
-            <img src="doom cover art.jpeg" alt="DOOM">
-            <h3>DOOM</h3>
-        </a>
-    </div>
+<option>
+Hollow Knight
+</option>
 
-    <!-- 5 -->
-    <div class="game">
-        <img src="minecraft.jpeg" alt="Minecraft">
-        <h3>Minecraft</h3>
-    </div>
+<option>
+Kosmik's Site
+</option>
 
-    <!-- 6 -->
-    <div class="game">
-        <img src="download 1.jpeg" alt="Terraria">
-        <h3>Terraria</h3>
-    </div>
+</select>
 
-    <!-- 7 -->
-    <div class="game">
-        <img src="download 2.jpeg" alt="Hollow Knight">
-        <h3>Hollow Knight</h3>
-    </div>
+<textarea
+id="bio"
+placeholder="Tell everyone about yourself..."
+rows="5"></textarea>
 
-    <!-- 8 -->
-<div class="game">
-    <a href="https://kosmikau.github.io/" target="_blank">
-        <img src="imresizer-son.jpg" alt="Kosmik's Site">
-        <h3>Kosmik's Site</h3>
-    </a>
+<button onclick="saveProfile()">
+Save Profile
+</button>
+
 </div>
 
-</div></div></div></div><script type="module" src="app.js"></script></body></html>
+<button onclick="logout()">
+Logout
+</button>
+
+<div id="adminBadge" style="display:none;">
+
+<h3>
+Administrator
+</h3>
+
+</div>
+
+<div id="adminPanel" style="display:none;margin-top:20px;">
+
+<h2>
+Admin Panel
+</h2>
+
+<h3>
+Create Announcement
+</h3>
+
+<input
+id="announcementTitle"
+placeholder="Announcement title">
+
+<textarea
+id="announcementMessage"
+placeholder="Announcement message">
+</textarea>
+
+<button onclick="createAnnouncement()">
+Post Announcement
+</button>
+
+<table id="userTable">
+
+<thead>
+
+<tr>
+
+<th>
+Username
+</th>
+
+<th>
+Role
+</th>
+
+<th>
+Banned
+</th>
+
+<th>
+Actions
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="userTableBody">
+
+</tbody>
+
+</table>
+
+</div>
+<div class="game-grid">
+
+```
+<!-- 1 -->
+<div class="game">
+
+    <a href="https://reheheheheehe.github.io/Celeste/" target="_blank">
+
+        <img src="celeste cover art.jpeg" alt="Celeste">
+
+        <h3>
+            Celeste
+        </h3>
+
+    </a>
+
+</div>
+
+
+
+
+<!-- 2 -->
+<div class="game">
+
+    <a href="https://reheheheheehe.github.io/cuphead-rehe/" target="_blank">
+
+        <img src="cuphead cover art.png" alt="Cuphead">
+
+        <h3>
+            Cuphead
+        </h3>
+
+    </a>
+
+</div>
+
+
+
+
+<!-- 3 -->
+<div class="game">
+
+    <a href="https://reheheheheehe.github.io/Deltarune/" target="_blank">
+
+        <img src="deltarune cover art.jpeg" alt="Deltarune">
+
+        <h3>
+            Deltarune
+        </h3>
+
+    </a>
+
+</div>
+
+
+
+
+<!-- 4 -->
+<div class="game">
+
+    <a href="https://ustymukhman.github.io/WebDOOM/public/" target="_blank">
+
+        <img src="doom cover art.jpeg" alt="DOOM">
+
+        <h3>
+            DOOM
+        </h3>
+
+    </a>
+
+</div>
+
+
+
+
+<!-- 5 -->
+<div class="game">
+
+    <img src="minecraft.jpeg" alt="Minecraft">
+
+    <h3>
+        Minecraft
+    </h3>
+
+</div>
+
+
+
+
+<!-- 6 -->
+<div class="game">
+
+    <img src="download 1.jpeg" alt="Terraria">
+
+    <h3>
+        Terraria
+    </h3>
+
+</div>
+
+
+
+
+<!-- 7 -->
+<div class="game">
+
+    <img src="download 2.jpeg" alt="Hollow Knight">
+
+    <h3>
+        Hollow Knight
+    </h3>
+
+</div>
+
+
+
+
+<!-- 8 -->
+<div class="game">
+
+    <a href="https://kosmikau.github.io/" target="_blank">
+
+        <img src="imresizer-son.jpg" alt="Kosmik's Site">
+
+        <h3>
+            Kosmik's Site
+        </h3>
+
+    </a>
+
+</div>
+```
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module" src="app.js"></script>
+
+</body>
+
+</html>
