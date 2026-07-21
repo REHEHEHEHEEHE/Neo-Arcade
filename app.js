@@ -200,8 +200,8 @@ window.logout = async () => {
 
     await loadAdminPanel();
         await loadLeaderboard();
+        
 };
-await loadLeaderboard();
     window.toggleBan = async (
     userId,
     currentRole,
@@ -216,6 +216,8 @@ await loadLeaderboard();
                 new_role: currentRole,
                 new_ban_status:
                     newBanStatus
+                await loadAdminPanel();
+await loadLeaderboard();
             }
         );
 
@@ -225,9 +227,8 @@ await loadLeaderboard();
     }
 
     await loadAdminPanel();
-};
-// Load the leaderboard for everyone
-await loadLeaderboard();
+
+
 
 
 
@@ -319,7 +320,7 @@ await loadLeaderboard();
     ).value = "";
 
     await loadAnnouncements();
-
+await loadLeaderboard();
     alert(
         "Announcement posted."
     );
@@ -375,7 +376,7 @@ profile.visits++;
 
     document.getElementById("authPanel").style.display = "none";
     document.getElementById("userPanel").style.display = "block";
-
+await loadProfileEditor(profile);
     await loadProfileEditor(profile);
 
     if(profile.role === "admin"){
@@ -389,7 +390,7 @@ profile.visits++;
     ).style.display = "block";
 
     await loadAdminPanel();
-        async function loadLeaderboard(){
+        
 
     const { data, error } =
         await supabase
@@ -546,6 +547,19 @@ window.saveProfile = async () =>
     alert("Profile updated!");
 
 };
+async function loadProfileEditor(profile){
+
+    document.getElementById("bio").value =
+        profile.bio || "";
+
+    document.getElementById("favoriteGame").value =
+        profile.favourite_game || "";
+
+    document.getElementById("avatarPreview").src =
+        profile.avatar_url ||
+        "https://placehold.co/150x150";
+
+}
 }
 async function loadProfileEditor(profile){
 
