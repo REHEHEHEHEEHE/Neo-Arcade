@@ -457,7 +457,7 @@ async function loadLeaderboard() {
     });
 
 }
-window.saveProfile = async () => {
+window.saveProfile = async () => 
 
     const { data:{user} } =
         await supabase.auth.getUser();
