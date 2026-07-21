@@ -26,7 +26,49 @@
 
     </table>
 
-</div></div><h2 id="welcome"></h2><button onclick="logout()">Logout</button><div id="adminBadge" style="display:none;"><h3>Administrator</h3></div><div id="adminPanel" style="display:none;margin-top:20px;"><h2>Admin Panel</h2><h3>Create Announcement</h3><input id="announcementTitle" placeholder="Announcement title"><textarea id="announcementMessage" placeholder="Announcement message"></textarea><button onclick="createAnnouncement()">Post Announcement</button><table id="userTable"><thead><tr><th>Username</th><th>Role</th><th>Banned</th><th>Actions</th></tr></thead><tbody id="userTableBody"></tbody></table></div><div class="game-grid">
+</div></div><h2 id="welcome"></h2><div id="profilePanel" class="panel">
+
+    <h2>👤 My Profile</h2>
+
+    <img
+        id="avatarPreview"
+        src="https://placehold.co/120x120/png"
+        width="120"
+        height="120"
+        style="border-radius:50%;margin-bottom:15px;"
+    >
+
+    <input
+        id="avatarUrl"
+        placeholder="Avatar Image URL"
+    >
+
+    <select id="favoriteGame">
+
+        <option value="">Favourite Game</option>
+
+        <option>Celeste</option>
+        <option>Cuphead</option>
+        <option>Deltarune</option>
+        <option>DOOM</option>
+        <option>Minecraft</option>
+        <option>Terraria</option>
+        <option>Hollow Knight</option>
+        <option>Kosmik's Site</option>
+
+    </select>
+
+    <textarea
+        id="bio"
+        placeholder="Tell everyone about yourself..."
+        rows="5"
+    ></textarea>
+
+    <button onclick="saveProfile()">
+        Save Profile
+    </button>
+
+</div><button onclick="logout()">Logout</button><div id="adminBadge" style="display:none;"><h3>Administrator</h3></div><div id="adminPanel" style="display:none;margin-top:20px;"><h2>Admin Panel</h2><h3>Create Announcement</h3><input id="announcementTitle" placeholder="Announcement title"><textarea id="announcementMessage" placeholder="Announcement message"></textarea><button onclick="createAnnouncement()">Post Announcement</button><table id="userTable"><thead><tr><th>Username</th><th>Role</th><th>Banned</th><th>Actions</th></tr></thead><tbody id="userTableBody"></tbody></table></div><div class="game-grid">
 
     <!-- 1 -->
     <div class="game">
