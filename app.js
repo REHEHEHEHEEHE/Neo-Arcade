@@ -457,41 +457,79 @@ async function loadLeaderboard() {
 }
 window.saveProfile = async () => {
 
-    const { data } =
+    const { data:{user} } =
         await supabase.auth.getUser();
-
-    const user = data.user;
 
     if(!user) return;
 
-    const avatar =
-        document.getElementById(
-            "avatarUrl"
-        ).value.trim();
+    const file =
+        document.getElementById("avatarFile").files[0];
+
+    let avatarUrl = null;
+
+    if(file){
+
+        const extension =
+            file.name.split(".").pop();
+
+        const fileName =
+            `${user.id}/avatar.${extension}`;
+
+        const { error: uploadError } =
+            await supabase.storage
+                .from("avatars")
+                .upload(
+                    fileName,
+                    file,
+                    {
+                        upsert:true
+                    }
+                );
+
+        if(uploadError){
+
+            alert(uploadError.message);
+
+            return;
+
+        }
+
+        const { data } =
+            supabase.storage
+                .from("avatars")
+                .getPublicUrl(fileName);
+
+        avatarUrl =
+            data.publicUrl;
+
+    }
 
     const bio =
-        document.getElementById(
-            "bio"
-        ).value.trim();
+        document.getElementById("bio").value;
 
     const favourite =
-        document.getElementById(
-            "favoriteGame"
-        ).value;
+        document.getElementById("favoriteGame").value;
+
+    const updateData = {
+
+        bio:bio,
+
+        favourite_game:favourite
+
+    };
+
+    if(avatarUrl){
+
+        updateData.avatar_url =
+            avatarUrl;
+
+    }
 
     const { error } =
         await supabase
             .from("profiles")
-            .update({
-
-                avatar_url: avatar,
-
-                bio: bio,
-
-                favourite_game: favourite
-
-            })
-            .eq("id", user.id);
+            .update(updateData)
+            .eq("id",user.id);
 
     if(error){
 
@@ -501,37 +539,11 @@ window.saveProfile = async () => {
 
     }
 
-    document.getElementById(
-        "avatarPreview"
-    ).src =
-        avatar || "https://placehold.co/120x120/png";
+    await loadUser();
 
     alert("Profile updated!");
 
 };
-async function loadProfileEditor(profile){
-
-    document.getElementById(
-        "avatarUrl"
-    ).value =
-        profile.avatar_url || "";
-
-    document.getElementById(
-        "bio"
-    ).value =
-        profile.bio || "";
-
-    document.getElementById(
-        "favoriteGame"
-    ).value =
-        profile.favourite_game || "";
-
-    document.getElementById(
-        "avatarPreview"
-    ).src =
-        profile.avatar_url ||
-        "https://placehold.co/120x120/png";
-
 }
 const {
     data:{session}
