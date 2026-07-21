@@ -455,6 +455,84 @@ async function loadLeaderboard() {
     });
 
 }
+window.saveProfile = async () => {
+
+    const { data } =
+        await supabase.auth.getUser();
+
+    const user = data.user;
+
+    if(!user) return;
+
+    const avatar =
+        document.getElementById(
+            "avatarUrl"
+        ).value.trim();
+
+    const bio =
+        document.getElementById(
+            "bio"
+        ).value.trim();
+
+    const favourite =
+        document.getElementById(
+            "favoriteGame"
+        ).value;
+
+    const { error } =
+        await supabase
+            .from("profiles")
+            .update({
+
+                avatar_url: avatar,
+
+                bio: bio,
+
+                favourite_game: favourite
+
+            })
+            .eq("id", user.id);
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+    document.getElementById(
+        "avatarPreview"
+    ).src =
+        avatar || "https://placehold.co/120x120/png";
+
+    alert("Profile updated!");
+
+};
+async function loadProfileEditor(profile){
+
+    document.getElementById(
+        "avatarUrl"
+    ).value =
+        profile.avatar_url || "";
+
+    document.getElementById(
+        "bio"
+    ).value =
+        profile.bio || "";
+
+    document.getElementById(
+        "favoriteGame"
+    ).value =
+        profile.favourite_game || "";
+
+    document.getElementById(
+        "avatarPreview"
+    ).src =
+        profile.avatar_url ||
+        "https://placehold.co/120x120/png";
+
+}
 const {
     data:{session}
 } = await supabase.auth.getSession();
