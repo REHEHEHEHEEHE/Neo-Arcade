@@ -1332,3 +1332,54 @@ if(session){
     await loadUser();
 
 }
+window.sendFriendRequest = async function(){
+
+
+const username =
+document.getElementById(
+"friendSearch"
+).value.trim();
+
+
+
+const {data:user} =
+await supabase
+.from("profiles")
+.select("id")
+.eq("username",username)
+.single();
+
+
+
+if(!user){
+
+alert("User not found");
+
+return;
+
+}
+
+
+
+const {data:{user:me}} =
+await supabase.auth.getUser();
+
+
+
+await supabase
+.from("friend_requests")
+.insert({
+
+sender_id:me.id,
+
+receiver_id:user.id
+
+});
+
+
+alert(
+"Friend request sent!"
+);
+
+
+};
