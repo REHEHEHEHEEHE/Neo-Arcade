@@ -49,7 +49,7 @@ window.register = async () => {
         alert(profileError.message);
         return;
     }
-
+await loadProfileEditor(profile);
     alert("Account created successfully.");
 };
 
