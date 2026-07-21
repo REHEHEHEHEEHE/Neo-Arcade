@@ -49,7 +49,7 @@ window.register = async () => {
         alert(profileError.message);
         return;
     }
-await loadProfileEditor(profile);
+
     alert("Account created successfully.");
 };
 
@@ -376,6 +376,8 @@ profile.visits++;
     document.getElementById("authPanel").style.display = "none";
     document.getElementById("userPanel").style.display = "block";
 
+    await loadProfileEditor(profile);
+
     if(profile.role === "admin"){
 
     document.getElementById(
@@ -544,6 +546,19 @@ window.saveProfile = async () => {
     alert("Profile updated!");
 
 };
+}
+async function loadProfileEditor(profile){
+
+    document.getElementById("bio").value =
+        profile.bio || "";
+
+    document.getElementById("favoriteGame").value =
+        profile.favourite_game || "";
+
+    document.getElementById("avatarPreview").src =
+        profile.avatar_url ||
+        "https://placehold.co/150x150";
+
 }
 const {
     data:{session}
