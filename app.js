@@ -762,7 +762,7 @@ async function loadLeaderboard(){
         await supabase
             .from("profiles")
             .select(
-                "username, visits"
+                "username, visits, avatar_url"
             )
             .order(
                 "visits",
@@ -772,7 +772,6 @@ async function loadLeaderboard(){
             );
 
 
-
     if(error){
 
         console.error(error);
@@ -780,6 +779,73 @@ async function loadLeaderboard(){
         return;
 
     }
+
+
+    const body =
+        document.getElementById(
+            "leaderboardBody"
+        );
+
+
+    if(!body){
+
+        return;
+
+    }
+
+
+    body.innerHTML = "";
+
+
+    data.forEach(
+        (player,index)=>{
+
+
+        body.innerHTML += `
+
+        <tr>
+
+            <td>
+                #${index + 1}
+            </td>
+
+
+            <td>
+
+                <img
+                src="${
+                    player.avatar_url ||
+                    'https://placehold.co/50x50'
+                }"
+                width="50"
+                height="50"
+                style="
+                border-radius:50%;
+                object-fit:cover;
+                ">
+
+            </td>
+
+
+            <td>
+                ${player.username}
+            </td>
+
+
+            <td>
+                ${player.visits || 0}
+            </td>
+
+
+        </tr>
+
+        `;
+
+
+    });
+
+
+}
 
 
 
