@@ -38,9 +38,25 @@
         style="border-radius:50%;margin-bottom:15px;"
     >
 
-    <input
-        id="avatarUrl"
-        placeholder="Avatar Image URL"
+    <label><strong>Avatar</strong></label>
+
+<input
+    type="file"
+    id="avatarFile"
+    accept="image/png,image/jpeg,image/webp,image/gif">
+
+<br><br>
+
+<img
+    id="avatarPreview"
+    src="https://placehold.co/150x150"
+    width="150"
+    height="150"
+    style="
+        border-radius:50%;
+        object-fit:cover;
+        border:4px solid #4ea3ff;
+    ">
     >
 
     <select id="favoriteGame">
