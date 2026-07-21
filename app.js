@@ -1,9 +1,8 @@
+console.log("Neo Arcade app.js loaded");
+
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-
-// ===============================
-// SUPABASE CONNECTION
-// ===============================
 
 const supabase = createClient(
 
@@ -20,35 +19,25 @@ const supabase = createClient(
 // REGISTER
 // ===============================
 
-window.register = async () => {
+window.register = async function(){
 
 
     const username =
-        document
-            .getElementById("regUsername")
-            .value
-            .trim();
+        document.getElementById("regUsername").value.trim();
 
 
     const email =
-        document
-            .getElementById("regEmail")
-            .value
-            .trim();
+        document.getElementById("regEmail").value.trim();
 
 
     const password =
-        document
-            .getElementById("regPassword")
-            .value;
+        document.getElementById("regPassword").value;
 
 
 
     if(!username || !email || !password){
 
-        alert(
-            "Please fill in all fields."
-        );
+        alert("Please fill in all fields.");
 
         return;
 
@@ -68,9 +57,7 @@ window.register = async () => {
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -80,9 +67,7 @@ window.register = async () => {
 
     if(!data.user){
 
-        alert(
-            "Please confirm your email first."
-        );
+        alert("Please confirm your email first.");
 
         return;
 
@@ -95,21 +80,17 @@ window.register = async () => {
             .from("profiles")
             .insert({
 
-                id:
-                    data.user.id,
+                id:data.user.id,
 
-                username,
+                username:username,
 
-                email,
+                email:email,
 
-                role:
-                    "player",
+                role:"player",
 
-                is_banned:
-                    false,
+                is_banned:false,
 
-                visits:
-                    0
+                visits:0
 
             });
 
@@ -117,9 +98,7 @@ window.register = async () => {
 
     if(profileError){
 
-        alert(
-            profileError.message
-        );
+        alert(profileError.message);
 
         return;
 
@@ -127,10 +106,7 @@ window.register = async () => {
 
 
 
-    alert(
-        "Account created successfully."
-    );
-
+    alert("Account created successfully.");
 
 };
 
@@ -144,7 +120,7 @@ window.register = async () => {
 // LOGIN
 // ===============================
 
-window.login = async () => {
+window.login = async function(){
 
 
     const username =
@@ -162,17 +138,13 @@ window.login = async () => {
 
 
 
-
     if(!username || !password){
 
-        alert(
-            "Enter username and password."
-        );
+        alert("Please enter username and password.");
 
         return;
 
     }
-
 
 
 
@@ -183,13 +155,12 @@ window.login = async () => {
             "get_email_from_username",
 
             {
-                input_username:
-                    username
+
+                input_username:username
+
             }
 
         );
-
-
 
 
 
@@ -197,28 +168,21 @@ window.login = async () => {
 
         console.error(error);
 
-        alert(
-            "Username lookup failed."
-        );
+        alert("Username lookup failed.");
 
         return;
 
     }
-
-
 
 
 
     if(!data || data.length === 0){
 
-        alert(
-            "Username not found."
-        );
+        alert("Username not found.");
 
         return;
 
     }
-
 
 
 
@@ -229,25 +193,20 @@ window.login = async () => {
 
 
 
-
     const { error:loginError } =
         await supabase.auth.signInWithPassword({
 
-            email,
+            email:email,
 
-            password
+            password:password
 
         });
 
 
 
-
-
     if(loginError){
 
-        alert(
-            loginError.message
-        );
+        alert(loginError.message);
 
         return;
 
@@ -255,13 +214,11 @@ window.login = async () => {
 
 
 
-
-
     await loadUser();
 
 
-
 };
+
 
 
 
@@ -272,7 +229,7 @@ window.login = async () => {
 // LOGOUT
 // ===============================
 
-window.logout = async () => {
+window.logout = async function(){
 
 
     await supabase.auth.signOut();
@@ -296,6 +253,7 @@ window.logout = async () => {
 async function loadUser(){
 
 
+
     const { data } =
         await supabase.auth.getUser();
 
@@ -315,14 +273,12 @@ async function loadUser(){
 
 
 
+
     const { data:profile, error } =
         await supabase
             .from("profiles")
             .select("*")
-            .eq(
-                "id",
-                user.id
-            )
+            .eq("id",user.id)
             .single();
 
 
@@ -341,12 +297,11 @@ async function loadUser(){
 
 
 
+
     if(profile.is_banned){
 
 
-        alert(
-            "This account has been banned."
-        );
+        alert("This account has been banned.");
 
 
         await supabase.auth.signOut();
@@ -372,24 +327,20 @@ async function loadUser(){
                 (profile.visits || 0) + 1
 
         })
-        .eq(
-            "id",
-            user.id
-        );
+        .eq("id",user.id);
+
+
 
 
 
 
 
     const welcome =
-        document.getElementById(
-            "welcome"
-        );
+        document.getElementById("welcome");
 
 
 
     if(welcome){
-
 
         welcome.innerHTML =
         `
@@ -398,30 +349,26 @@ async function loadUser(){
         Role: ${profile.role}
         `;
 
-
     }
 
 
 
 
 
+
+
     const authPanel =
-        document.getElementById(
-            "authPanel"
-        );
+        document.getElementById("authPanel");
 
 
     const userPanel =
-        document.getElementById(
-            "userPanel"
-        );
+        document.getElementById("userPanel");
 
 
 
     if(authPanel){
 
-        authPanel.style.display =
-            "none";
+        authPanel.style.display="none";
 
     }
 
@@ -429,8 +376,7 @@ async function loadUser(){
 
     if(userPanel){
 
-        userPanel.style.display =
-            "block";
+        userPanel.style.display="block";
 
     }
 
@@ -438,29 +384,18 @@ async function loadUser(){
 
 
 
-    if(typeof loadProfileEditor === "function"){
 
-        await loadProfileEditor(profile);
-
-    }
+    await loadProfileEditor(profile);
 
 
 
-
-    if(typeof loadAnnouncements === "function"){
-
-        await loadAnnouncements();
-
-    }
+    await loadLeaderboard();
 
 
 
+    await loadAnnouncements();
 
-    if(typeof loadLeaderboard === "function"){
 
-        await loadLeaderboard();
-
-    }
 
 
 
@@ -469,22 +404,17 @@ async function loadUser(){
 
 
         const badge =
-            document.getElementById(
-                "adminBadge"
-            );
+            document.getElementById("adminBadge");
 
 
         const panel =
-            document.getElementById(
-                "adminPanel"
-            );
+            document.getElementById("adminPanel");
 
 
 
         if(badge){
 
-            badge.style.display =
-                "block";
+            badge.style.display="block";
 
         }
 
@@ -492,21 +422,17 @@ async function loadUser(){
 
         if(panel){
 
-            panel.style.display =
-                "block";
+            panel.style.display="block";
 
         }
 
 
 
-        if(typeof loadAdminPanel === "function"){
-
-            await loadAdminPanel();
-
-        }
+        await loadAdminPanel();
 
 
     }
+
 
 
 }
@@ -514,13 +440,14 @@ async function loadUser(){
 // ADMIN PANEL
 // ===============================
 
-async function loadAdminPanel() {
+async function loadAdminPanel(){
 
 
     const { data, error } =
         await supabase.rpc(
             "get_all_profiles"
         );
+
 
 
     if(error){
@@ -635,44 +562,40 @@ async function loadAdminPanel() {
 
 
 
-
 // ===============================
-// PROMOTE / DEMOTE
+// CHANGE ROLE
 // ===============================
 
-window.changeRole = async (
+window.changeRole = async function(
     userId,
     newRole,
     currentBanStatus
-) => {
+){
+
 
 
     const { error } =
         await supabase.rpc(
+
             "admin_update_user",
+
             {
 
-                target_user_id:
-                    userId,
+                target_user_id:userId,
 
+                new_role:newRole,
 
-                new_role:
-                    newRole,
-
-
-                new_ban_status:
-                    currentBanStatus
+                new_ban_status:currentBanStatus
 
             }
+
         );
 
 
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -686,6 +609,7 @@ window.changeRole = async (
 
 
 };
+
 
 
 
@@ -697,40 +621,36 @@ window.changeRole = async (
 // BAN / UNBAN
 // ===============================
 
-window.toggleBan = async (
+window.toggleBan = async function(
     userId,
     currentRole,
     newBanStatus
-) => {
+){
 
 
 
     const { error } =
         await supabase.rpc(
+
             "admin_update_user",
+
             {
 
-                target_user_id:
-                    userId,
+                target_user_id:userId,
 
+                new_role:currentRole,
 
-                new_role:
-                    currentRole,
-
-
-                new_ban_status:
-                    newBanStatus
+                new_ban_status:newBanStatus
 
             }
+
         );
 
 
 
     if(error){
 
-        alert(
-            error.message
-        );
+        alert(error.message);
 
         return;
 
@@ -752,7 +672,191 @@ window.toggleBan = async (
 
 
 // ===============================
-// LEADERBOARD
+// ANNOUNCEMENTS
+// ===============================
+
+async function loadAnnouncements(){
+
+
+
+    const { data,error } =
+        await supabase.rpc(
+            "get_announcements"
+        );
+
+
+
+    if(error){
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+
+
+    const container =
+        document.getElementById(
+            "announcementList"
+        );
+
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+
+
+    container.innerHTML = "";
+
+
+
+
+    data.forEach(item=>{
+
+
+        container.innerHTML += `
+
+        <div class="announcement">
+
+
+            <h3>
+                ${item.title}
+            </h3>
+
+
+            <p>
+                ${item.message}
+            </p>
+
+
+            <small>
+                ${
+                    new Date(
+                        item.created_at
+                    ).toLocaleString()
+                }
+            </small>
+
+
+        </div>
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// CREATE ANNOUNCEMENT
+// ===============================
+
+window.createAnnouncement = async function(){
+
+
+    const title =
+        document
+            .getElementById(
+                "announcementTitle"
+            )
+            .value
+            .trim();
+
+
+
+    const message =
+        document
+            .getElementById(
+                "announcementMessage"
+            )
+            .value
+            .trim();
+
+
+
+
+    if(!title || !message){
+
+        alert(
+            "Please fill in all fields."
+        );
+
+        return;
+
+    }
+
+
+
+
+
+    const { error } =
+        await supabase.rpc(
+
+            "create_announcement",
+
+            {
+
+                announcement_title:title,
+
+                announcement_message:message
+
+            }
+
+        );
+
+
+
+    if(error){
+
+        alert(error.message);
+
+        return;
+
+    }
+
+
+
+
+
+    document.getElementById(
+        "announcementTitle"
+    ).value = "";
+
+
+
+    document.getElementById(
+        "announcementMessage"
+    ).value = "";
+
+
+
+
+    await loadAnnouncements();
+
+
+
+    alert(
+        "Announcement posted."
+    );
+
+
+};
+// ===============================
+// LEADERBOARD WITH AVATARS
 // ===============================
 
 async function loadLeaderboard(){
@@ -772,6 +876,7 @@ async function loadLeaderboard(){
             );
 
 
+
     if(error){
 
         console.error(error);
@@ -781,10 +886,13 @@ async function loadLeaderboard(){
     }
 
 
+
+
     const body =
         document.getElementById(
             "leaderboardBody"
         );
+
 
 
     if(!body){
@@ -794,11 +902,13 @@ async function loadLeaderboard(){
     }
 
 
+
+
     body.innerHTML = "";
 
 
-    data.forEach(
-        (player,index)=>{
+
+    data.forEach((player,index)=>{
 
 
         body.innerHTML += `
@@ -815,7 +925,7 @@ async function loadLeaderboard(){
                 <img
                 src="${
                     player.avatar_url ||
-                    'https://placehold.co/50x50'
+                    "https://placehold.co/50x50"
                 }"
                 width="50"
                 height="50"
@@ -850,254 +960,10 @@ async function loadLeaderboard(){
 
 
 
-    const body =
-        document.getElementById(
-            "leaderboardBody"
-        );
 
 
 
-    if(!body){
 
-        return;
-
-    }
-
-
-
-    body.innerHTML = "";
-
-
-
-    data.forEach(
-        (player,index)=>{
-
-
-        body.innerHTML += `
-
-        <tr>
-
-            <td>
-                #${index + 1}
-            </td>
-
-
-            <td>
-                ${player.username}
-            </td>
-
-
-            <td>
-                ${player.visits || 0}
-            </td>
-
-
-        </tr>
-
-        `;
-
-
-    });
-
-
-
-}
-
-
-
-
-
-
-
-
-// ===============================
-// ANNOUNCEMENTS
-// ===============================
-
-async function loadAnnouncements(){
-
-
-
-    const { data,error } =
-        await supabase.rpc(
-            "get_announcements"
-        );
-
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-
-    }
-
-
-
-    const container =
-        document.getElementById(
-            "announcementList"
-        );
-
-
-
-    if(!container){
-
-        return;
-
-    }
-
-
-
-    container.innerHTML = "";
-
-
-
-    data.forEach(item=>{
-
-
-        container.innerHTML += `
-
-        <div class="announcement">
-
-
-            <h3>
-                ${item.title}
-            </h3>
-
-
-            <p>
-                ${item.message}
-            </p>
-
-
-            <small>
-                ${
-                    new Date(
-                        item.created_at
-                    ).toLocaleString()
-                }
-            </small>
-
-
-        </div>
-
-
-        `;
-
-
-    });
-
-
-
-}
-
-
-
-
-
-
-
-// ===============================
-// CREATE ANNOUNCEMENT
-// ===============================
-
-window.createAnnouncement = async()=>{
-
-
-    const title =
-        document
-            .getElementById(
-                "announcementTitle"
-            )
-            .value
-            .trim();
-
-
-
-    const message =
-        document
-            .getElementById(
-                "announcementMessage"
-            )
-            .value
-            .trim();
-
-
-
-
-
-    if(!title || !message){
-
-        alert(
-            "Please fill in all fields."
-        );
-
-        return;
-
-    }
-
-
-
-
-
-    const { error } =
-        await supabase.rpc(
-            "create_announcement",
-            {
-
-                announcement_title:
-                    title,
-
-
-                announcement_message:
-                    message
-
-            }
-        );
-
-
-
-
-
-    if(error){
-
-        alert(
-            error.message
-        );
-
-        return;
-
-    }
-
-
-
-
-
-    document.getElementById(
-        "announcementTitle"
-    ).value = "";
-
-
-
-    document.getElementById(
-        "announcementMessage"
-    ).value = "";
-
-
-
-
-    await loadAnnouncements();
-
-
-
-    alert(
-        "Announcement posted."
-    );
-
-
-};
 // ===============================
 // PROFILE EDITOR
 // ===============================
@@ -1161,10 +1027,11 @@ async function loadProfileEditor(profile){
 
 
 // ===============================
-// SAVE PROFILE + AVATAR UPLOAD
+// SAVE PROFILE
 // ===============================
 
-window.saveProfile = async () => {
+window.saveProfile = async function(){
+
 
 
     console.log(
@@ -1184,17 +1051,13 @@ window.saveProfile = async () => {
 
     if(!user){
 
-
         alert(
-            "You are not logged in."
+            "Not logged in."
         );
-
 
         return;
 
-
     }
-
 
 
 
@@ -1208,15 +1071,7 @@ window.saveProfile = async () => {
 
 
 
-    console.log(
-        "Selected file:",
-        file
-    );
-
-
-
     let avatarUrl = null;
-
 
 
 
@@ -1239,15 +1094,6 @@ window.saveProfile = async () => {
 
 
 
-        console.log(
-            "Uploading:",
-            fileName
-        );
-
-
-
-
-
         const { error:uploadError } =
             await supabase.storage
                 .from(
@@ -1263,24 +1109,17 @@ window.saveProfile = async () => {
 
 
 
-
-
         if(uploadError){
 
+            alert(
+                uploadError.message
+            );
 
             console.error(
                 uploadError
             );
 
-
-            alert(
-                "Avatar upload failed: " +
-                uploadError.message
-            );
-
-
             return;
-
 
         }
 
@@ -1299,21 +1138,11 @@ window.saveProfile = async () => {
 
 
 
-
         avatarUrl =
             urlData.publicUrl;
 
 
-
-        console.log(
-            "Avatar URL:",
-            avatarUrl
-        );
-
-
-
     }
-
 
 
 
@@ -1339,6 +1168,7 @@ window.saveProfile = async () => {
                 )
                 ?.value || ""
 
+
     };
 
 
@@ -1347,12 +1177,11 @@ window.saveProfile = async () => {
 
     if(avatarUrl){
 
-
         updateData.avatar_url =
             avatarUrl;
 
-
     }
+
 
 
 
@@ -1378,25 +1207,15 @@ window.saveProfile = async () => {
 
     if(error){
 
-
-        console.error(
-            error
-        );
-
-
         alert(
-            "Profile update failed: " +
             error.message
         );
 
+        console.error(error);
 
         return;
 
-
     }
-
-
-
 
 
 
@@ -1418,9 +1237,8 @@ window.saveProfile = async () => {
 
 
 
-
 // ===============================
-// LIVE AVATAR PREVIEW
+// LIVE IMAGE PREVIEW
 // ===============================
 
 const avatarInput =
@@ -1429,16 +1247,17 @@ const avatarInput =
     );
 
 
+
 if(avatarInput){
 
 
     avatarInput.addEventListener(
         "change",
-        () => {
+        function(){
 
 
             const file =
-                avatarInput.files[0];
+                this.files[0];
 
 
 
@@ -1466,6 +1285,7 @@ if(avatarInput){
                         );
 
 
+
                     if(avatar){
 
                         avatar.src =
@@ -1478,9 +1298,7 @@ if(avatarInput){
 
 
 
-            reader.readAsDataURL(
-                file
-            );
+            reader.readAsDataURL(file);
 
 
         }
@@ -1511,8 +1329,6 @@ const {
 
 if(session){
 
-
     await loadUser();
-
 
 }
