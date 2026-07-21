@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -16,66 +15,125 @@
 
 </head>
 
+
 <body>
+
 
 <div class="site-header">
 
-```
-<img
-    src="neoarcade-logo.png"
-    alt="Neo Arcade Logo"
-    class="site-logo">
+    <img
+        src="neoarcade-logo.png"
+        alt="Neo Arcade Logo"
+        class="site-logo">
 
-<h1>Neo Arcade v2</h1>
-```
+    <h1>
+        Neo Arcade v2
+    </h1>
 
 </div>
 
+
+
+
+
 <div id="authPanel" class="panel">
 
-<h2>Register</h2>
 
-<input id="regUsername" placeholder="Username">
+<h2>
+Register
+</h2>
 
-<input id="regEmail" placeholder="Email">
 
-<input id="regPassword" type="password" placeholder="Password">
+<input 
+id="regUsername"
+placeholder="Username">
+
+
+<input 
+id="regEmail"
+placeholder="Email">
+
+
+<input
+id="regPassword"
+type="password"
+placeholder="Password">
+
 
 <button onclick="register()">
 Register
 </button>
 
+
+
 <hr>
 
-<h2>Login</h2>
 
-<input id="loginUsername" placeholder="Username">
 
-<input id="loginPassword" type="password" placeholder="Password">
+
+<h2>
+Login
+</h2>
+
+
+<input
+id="loginUsername"
+placeholder="Username">
+
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password">
+
 
 <button onclick="login()">
 Login
 </button>
 
+
 </div>
+
+
+
+
+
+
+
 
 <div id="userPanel" class="panel" style="display:none;">
 
+
+
+
+
 <div id="announcementPanel" class="panel">
 
-<h2>Announcements</h2>
+
+<h2>
+Announcements
+</h2>
+
 
 <div id="announcementList">
 Loading...
 </div>
 
+
+
+
+
+
 <div id="leaderboardPanel" class="panel">
+
 
 <h2>
 🏆 Most Active Players
 </h2>
 
+
 <table id="leaderboardTable">
+
 
 <thead>
 
@@ -85,147 +143,261 @@ Loading...
 Rank
 </th>
 
+
 <th>
 Username
 </th>
+
 
 <th>
 Visits
 </th>
 
+
 </tr>
 
 </thead>
+
+
 
 <tbody id="leaderboardBody">
 
 </tbody>
 
+
 </table>
 
-</div>
 
 </div>
+
+
+</div>
+
+
+
+
+
+
+
 
 <h2 id="welcome"></h2>
 
+
+
+
+
+
+
+
 <div id="profilePanel" class="panel">
+
 
 <h2>
 👤 My Profile
 </h2>
 
+
+
+
 <img
- id="avatarPreview"
- src="https://placehold.co/150x150"
- width="150"
- height="150"
- style="
- border-radius:50%;
- object-fit:cover;
- border:4px solid #4ea3ff;
- ">
+id="avatarPreview"
+src="https://placehold.co/150x150"
+width="150"
+height="150"
+style="
+border-radius:50%;
+object-fit:cover;
+border:4px solid #4ea3ff;
+">
+
+
+
+
 
 <br><br>
+
+
+
 
 <label>
 <strong>Avatar</strong>
 </label>
 
+
+
+
 <input
- type="file"
- id="avatarFile"
- accept="image/png,image/jpeg,image/webp,image/gif">
+type="file"
+id="avatarFile"
+accept="image/png,image/jpeg,image/webp,image/gif">
+
+
+
+
 
 <br><br>
 
+
+
+
+
+
 <select id="favoriteGame">
+
 
 <option value="">
 Favourite Game
 </option>
 
+
 <option>
 Celeste
 </option>
+
 
 <option>
 Cuphead
 </option>
 
+
 <option>
 Deltarune
 </option>
+
 
 <option>
 DOOM
 </option>
 
+
 <option>
 Minecraft
 </option>
+
 
 <option>
 Terraria
 </option>
 
+
 <option>
 Hollow Knight
 </option>
+
 
 <option>
 Kosmik's Site
 </option>
 
+
 </select>
+
+
+
+
+
+
 
 <textarea
 id="bio"
 placeholder="Tell everyone about yourself..."
 rows="5"></textarea>
 
+
+
+
+
+
 <button onclick="saveProfile()">
 Save Profile
 </button>
 
+
+
+
 </div>
+
+
+
+
+
+
 
 <button onclick="logout()">
 Logout
 </button>
 
+
+
+
+
+
+
+
 <div id="adminBadge" style="display:none;">
+
 
 <h3>
 Administrator
 </h3>
 
+
 </div>
 
+
+
+
+
+
+
+
 <div id="adminPanel" style="display:none;margin-top:20px;">
+
 
 <h2>
 Admin Panel
 </h2>
 
+
+
+
+
 <h3>
 Create Announcement
 </h3>
+
+
+
 
 <input
 id="announcementTitle"
 placeholder="Announcement title">
 
+
+
+
+
 <textarea
 id="announcementMessage"
-placeholder="Announcement message">
-</textarea>
+placeholder="Announcement message"></textarea>
+
+
+
+
+
 
 <button onclick="createAnnouncement()">
 Post Announcement
 </button>
 
+
+
+
+
+
+
 <table id="userTable">
+
 
 <thead>
 
@@ -235,169 +407,208 @@ Post Announcement
 Username
 </th>
 
+
 <th>
 Role
 </th>
+
 
 <th>
 Banned
 </th>
 
+
 <th>
 Actions
 </th>
+
 
 </tr>
 
 </thead>
 
+
+
+
+
 <tbody id="userTableBody">
 
 </tbody>
 
+
 </table>
+
 
 </div>
 <div class="game-grid">
 
-```
-<!-- 1 -->
-<div class="game">
 
-    <a href="https://reheheheheehe.github.io/Celeste/" target="_blank">
+    <!-- 1 -->
+    <div class="game">
 
-        <img src="celeste cover art.jpeg" alt="Celeste">
+        <a href="https://reheheheheehe.github.io/Celeste/" target="_blank">
 
-        <h3>
-            Celeste
-        </h3>
+            <img 
+            src="celeste cover art.jpeg" 
+            alt="Celeste">
 
-    </a>
+            <h3>
+                Celeste
+            </h3>
 
-</div>
+        </a>
 
-
-
-
-<!-- 2 -->
-<div class="game">
-
-    <a href="https://reheheheheehe.github.io/cuphead-rehe/" target="_blank">
-
-        <img src="cuphead cover art.png" alt="Cuphead">
-
-        <h3>
-            Cuphead
-        </h3>
-
-    </a>
-
-</div>
+    </div>
 
 
 
 
-<!-- 3 -->
-<div class="game">
+    <!-- 2 -->
+    <div class="game">
 
-    <a href="https://reheheheheehe.github.io/Deltarune/" target="_blank">
+        <a href="https://reheheheheehe.github.io/cuphead-rehe/" target="_blank">
 
-        <img src="deltarune cover art.jpeg" alt="Deltarune">
+            <img 
+            src="cuphead cover art.png" 
+            alt="Cuphead">
 
-        <h3>
-            Deltarune
-        </h3>
+            <h3>
+                Cuphead
+            </h3>
 
-    </a>
+        </a>
 
-</div>
-
-
-
-
-<!-- 4 -->
-<div class="game">
-
-    <a href="https://ustymukhman.github.io/WebDOOM/public/" target="_blank">
-
-        <img src="doom cover art.jpeg" alt="DOOM">
-
-        <h3>
-            DOOM
-        </h3>
-
-    </a>
-
-</div>
+    </div>
 
 
 
 
-<!-- 5 -->
-<div class="game">
+    <!-- 3 -->
+    <div class="game">
 
-    <img src="minecraft.jpeg" alt="Minecraft">
+        <a href="https://reheheheheehe.github.io/Deltarune/" target="_blank">
 
-    <h3>
-        Minecraft
-    </h3>
+            <img 
+            src="deltarune cover art.jpeg" 
+            alt="Deltarune">
 
-</div>
+            <h3>
+                Deltarune
+            </h3>
 
+        </a>
 
-
-
-<!-- 6 -->
-<div class="game">
-
-    <img src="download 1.jpeg" alt="Terraria">
-
-    <h3>
-        Terraria
-    </h3>
-
-</div>
+    </div>
 
 
 
 
-<!-- 7 -->
-<div class="game">
+    <!-- 4 -->
+    <div class="game">
 
-    <img src="download 2.jpeg" alt="Hollow Knight">
+        <a href="https://ustymukhman.github.io/WebDOOM/public/" target="_blank">
 
-    <h3>
-        Hollow Knight
-    </h3>
+            <img 
+            src="doom cover art.jpeg" 
+            alt="DOOM">
 
-</div>
+            <h3>
+                DOOM
+            </h3>
+
+        </a>
+
+    </div>
 
 
 
 
-<!-- 8 -->
-<div class="game">
+    <!-- 5 -->
+    <div class="game">
 
-    <a href="https://kosmikau.github.io/" target="_blank">
-
-        <img src="imresizer-son.jpg" alt="Kosmik's Site">
+        <img 
+        src="minecraft.jpeg" 
+        alt="Minecraft">
 
         <h3>
-            Kosmik's Site
+            Minecraft
         </h3>
 
-    </a>
+    </div>
+
+
+
+
+    <!-- 6 -->
+    <div class="game">
+
+        <img 
+        src="download 1.jpeg" 
+        alt="Terraria">
+
+        <h3>
+            Terraria
+        </h3>
+
+    </div>
+
+
+
+
+    <!-- 7 -->
+    <div class="game">
+
+        <img 
+        src="download 2.jpeg" 
+        alt="Hollow Knight">
+
+        <h3>
+            Hollow Knight
+        </h3>
+
+    </div>
+
+
+
+
+    <!-- 8 -->
+    <div class="game">
+
+        <a href="https://kosmikau.github.io/" target="_blank">
+
+            <img 
+            src="imresizer-son.jpg" 
+            alt="Kosmik's Site">
+
+            <h3>
+                Kosmik's Site
+            </h3>
+
+        </a>
+
+    </div>
+
+
 
 </div>
-```
+
+
+
+
 
 </div>
 
-</div>
+
+
+
 
 </div>
+
+
+
 
 <script type="module" src="app.js"></script>
+
 
 </body>
 
