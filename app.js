@@ -1,9 +1,19 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+
+// ===============================
+// SUPABASE CONNECTION
+// ===============================
+
 const supabase = createClient(
+
     "https://xendlckjbpqllbfzmouj.supabase.co",
+
     "sb_publishable_Twcn4S7CVpv-WHCz063wcg_wvQPyKkB"
+
 );
+
+
 
 
 // ===============================
@@ -12,22 +22,38 @@ const supabase = createClient(
 
 window.register = async () => {
 
+
     const username =
-        document.getElementById("regUsername").value.trim();
+        document
+            .getElementById("regUsername")
+            .value
+            .trim();
+
 
     const email =
-        document.getElementById("regEmail").value.trim();
+        document
+            .getElementById("regEmail")
+            .value
+            .trim();
+
 
     const password =
-        document.getElementById("regPassword").value;
+        document
+            .getElementById("regPassword")
+            .value;
 
 
-    if (!username || !email || !password) {
 
-        alert("Please fill in all fields.");
+    if(!username || !email || !password){
+
+        alert(
+            "Please fill in all fields."
+        );
+
         return;
 
     }
+
 
 
     const { data, error } =
@@ -39,18 +65,11 @@ window.register = async () => {
         });
 
 
-    if (error) {
 
-        alert(error.message);
-        return;
-
-    }
-
-
-    if (!data.user) {
+    if(error){
 
         alert(
-            "Please check your email and confirm your account."
+            error.message
         );
 
         return;
@@ -58,32 +77,66 @@ window.register = async () => {
     }
 
 
-    const { error: profileError } =
-        await supabase
-            .from("profiles")
-            .insert({
 
-                id: data.user.id,
-                username: username,
-                email: email,
-                role: "player",
-                is_banned: false,
-                visits: 0
+    if(!data.user){
 
-            });
+        alert(
+            "Please confirm your email first."
+        );
 
-
-    if (profileError) {
-
-        alert(profileError.message);
         return;
 
     }
 
 
-    alert("Account created successfully.");
+
+    const { error:profileError } =
+        await supabase
+            .from("profiles")
+            .insert({
+
+                id:
+                    data.user.id,
+
+                username,
+
+                email,
+
+                role:
+                    "player",
+
+                is_banned:
+                    false,
+
+                visits:
+                    0
+
+            });
+
+
+
+    if(profileError){
+
+        alert(
+            profileError.message
+        );
+
+        return;
+
+    }
+
+
+
+    alert(
+        "Account created successfully."
+    );
+
 
 };
+
+
+
+
 
 
 
@@ -101,6 +154,7 @@ window.login = async () => {
             .trim();
 
 
+
     const password =
         document
             .getElementById("loginPassword")
@@ -108,26 +162,38 @@ window.login = async () => {
 
 
 
-    if (!username || !password) {
 
-        alert("Please enter your username and password.");
+    if(!username || !password){
+
+        alert(
+            "Enter username and password."
+        );
+
         return;
 
     }
 
 
 
+
+
     const { data, error } =
         await supabase.rpc(
+
             "get_email_from_username",
+
             {
-                input_username: username
+                input_username:
+                    username
             }
+
         );
 
 
 
-    if (error) {
+
+
+    if(error){
 
         console.error(error);
 
@@ -141,7 +207,9 @@ window.login = async () => {
 
 
 
-    if (!data || data.length === 0) {
+
+
+    if(!data || data.length === 0){
 
         alert(
             "Username not found."
@@ -153,24 +221,33 @@ window.login = async () => {
 
 
 
+
+
     const email =
         data[0].email;
 
 
 
-    const { error: loginError } =
+
+
+    const { error:loginError } =
         await supabase.auth.signInWithPassword({
 
             email,
+
             password
 
         });
 
 
 
-    if (loginError) {
 
-        alert(loginError.message);
+
+    if(loginError){
+
+        alert(
+            loginError.message
+        );
 
         return;
 
@@ -178,10 +255,15 @@ window.login = async () => {
 
 
 
+
+
     await loadUser();
 
 
+
 };
+
+
 
 
 
@@ -204,15 +286,19 @@ window.logout = async () => {
 
 
 
+
+
+
 // ===============================
-// LOAD CURRENT USER
+// LOAD USER
 // ===============================
 
-async function loadUser() {
+async function loadUser(){
 
 
     const { data } =
         await supabase.auth.getUser();
+
 
 
     const user =
@@ -220,7 +306,7 @@ async function loadUser() {
 
 
 
-    if (!user) {
+    if(!user){
 
         return;
 
@@ -228,16 +314,22 @@ async function loadUser() {
 
 
 
-    const { data: profile, error } =
+
+    const { data:profile, error } =
         await supabase
             .from("profiles")
             .select("*")
-            .eq("id", user.id)
+            .eq(
+                "id",
+                user.id
+            )
             .single();
 
 
 
-    if (error || !profile) {
+
+
+    if(error || !profile){
 
         console.error(error);
 
@@ -247,9 +339,9 @@ async function loadUser() {
 
 
 
-    // Check banned status
 
-    if (profile.is_banned) {
+
+    if(profile.is_banned){
 
 
         alert(
@@ -270,7 +362,7 @@ async function loadUser() {
 
 
 
-    // Increase visits
+
 
     await supabase
         .from("profiles")
@@ -287,34 +379,46 @@ async function loadUser() {
 
 
 
+
+
     const welcome =
-        document.getElementById("welcome");
+        document.getElementById(
+            "welcome"
+        );
 
 
-    if (welcome) {
+
+    if(welcome){
 
 
         welcome.innerHTML =
-            `
-            Welcome ${profile.username}
-            <br>
-            Role: ${profile.role}
-            `;
+        `
+        Welcome ${profile.username}
+        <br>
+        Role: ${profile.role}
+        `;
+
 
     }
 
 
 
+
+
     const authPanel =
-        document.getElementById("authPanel");
+        document.getElementById(
+            "authPanel"
+        );
 
 
     const userPanel =
-        document.getElementById("userPanel");
+        document.getElementById(
+            "userPanel"
+        );
 
 
 
-    if (authPanel) {
+    if(authPanel){
 
         authPanel.style.display =
             "none";
@@ -323,7 +427,7 @@ async function loadUser() {
 
 
 
-    if (userPanel) {
+    if(userPanel){
 
         userPanel.style.display =
             "block";
@@ -332,16 +436,9 @@ async function loadUser() {
 
 
 
-    await loadAnnouncements();
 
 
-    await loadLeaderboard();
-
-
-
-    if (
-        typeof loadProfileEditor === "function"
-    ) {
+    if(typeof loadProfileEditor === "function"){
 
         await loadProfileEditor(profile);
 
@@ -349,19 +446,42 @@ async function loadUser() {
 
 
 
-    if (profile.role === "admin") {
+
+    if(typeof loadAnnouncements === "function"){
+
+        await loadAnnouncements();
+
+    }
+
+
+
+
+    if(typeof loadLeaderboard === "function"){
+
+        await loadLeaderboard();
+
+    }
+
+
+
+
+    if(profile.role === "admin"){
 
 
         const badge =
-            document.getElementById("adminBadge");
+            document.getElementById(
+                "adminBadge"
+            );
 
 
         const panel =
-            document.getElementById("adminPanel");
+            document.getElementById(
+                "adminPanel"
+            );
 
 
 
-        if (badge) {
+        if(badge){
 
             badge.style.display =
                 "block";
@@ -370,7 +490,7 @@ async function loadUser() {
 
 
 
-        if (panel) {
+        if(panel){
 
             panel.style.display =
                 "block";
@@ -379,7 +499,11 @@ async function loadUser() {
 
 
 
-        await loadAdminPanel();
+        if(typeof loadAdminPanel === "function"){
+
+            await loadAdminPanel();
+
+        }
 
 
     }
@@ -399,7 +523,7 @@ async function loadAdminPanel() {
         );
 
 
-    if (error) {
+    if(error){
 
         console.error(error);
 
@@ -416,7 +540,7 @@ async function loadAdminPanel() {
 
 
 
-    if (!tableBody) {
+    if(!tableBody){
 
         return;
 
@@ -431,84 +555,73 @@ async function loadAdminPanel() {
     data.forEach(user => {
 
 
+        tableBody.innerHTML += `
 
-        const row =
-            document.createElement(
-                "tr"
-            );
+        <tr>
 
-
-
-        row.innerHTML = `
-
-        <td>
-            ${user.username}
-        </td>
-
-        <td>
-            ${user.role}
-        </td>
-
-        <td>
-            ${
-                user.is_banned
-                ? "Yes"
-                : "No"
-            }
-        </td>
+            <td>
+                ${user.username}
+            </td>
 
 
-        <td>
+            <td>
+                ${user.role}
+            </td>
 
 
-            <button
-            onclick="
-            changeRole(
-                '${user.id}',
-                '${
-                    user.role === "admin"
-                    ? "player"
-                    : "admin"
-                }',
-                ${user.is_banned}
-            )">
+            <td>
+                ${
+                    user.is_banned
+                    ? "Yes"
+                    : "No"
+                }
+            </td>
 
-            ${
-                user.role === "admin"
-                ? "Demote"
-                : "Promote"
-            }
 
-            </button>
+            <td>
+
+
+                <button onclick="changeRole(
+                    '${user.id}',
+                    '${user.role === "admin" ? "player" : "admin"}',
+                    ${user.is_banned}
+                )">
+
+
+                    ${
+                        user.role === "admin"
+                        ? "Demote"
+                        : "Promote"
+                    }
+
+
+                </button>
 
 
 
-            <button
-            onclick="
-            toggleBan(
-                '${user.id}',
-                '${user.role}',
-                ${!user.is_banned}
-            )">
+                <button onclick="toggleBan(
+                    '${user.id}',
+                    '${user.role}',
+                    ${!user.is_banned}
+                )">
 
 
-            ${
-                user.is_banned
-                ? "Unban"
-                : "Ban"
-            }
+                    ${
+                        user.is_banned
+                        ? "Unban"
+                        : "Ban"
+                    }
 
 
-            </button>
+                </button>
 
 
-        </td>
+            </td>
+
+
+        </tr>
 
         `;
-
-
-
-        tableBody.appendChild(row);
 
 
     });
@@ -520,8 +633,11 @@ async function loadAdminPanel() {
 
 
 
+
+
+
 // ===============================
-// CHANGE ROLE
+// PROMOTE / DEMOTE
 // ===============================
 
 window.changeRole = async (
@@ -529,7 +645,6 @@ window.changeRole = async (
     newRole,
     currentBanStatus
 ) => {
-
 
 
     const { error } =
@@ -540,8 +655,10 @@ window.changeRole = async (
                 target_user_id:
                     userId,
 
+
                 new_role:
                     newRole,
+
 
                 new_ban_status:
                     currentBanStatus
@@ -551,23 +668,19 @@ window.changeRole = async (
 
 
 
-    if (error) {
-
+    if(error){
 
         alert(
             error.message
         );
 
-
         return;
-
 
     }
 
 
 
     await loadAdminPanel();
-
 
     await loadLeaderboard();
 
@@ -579,8 +692,9 @@ window.changeRole = async (
 
 
 
+
 // ===============================
-// BAN / UNBAN USER
+// BAN / UNBAN
 // ===============================
 
 window.toggleBan = async (
@@ -599,8 +713,10 @@ window.toggleBan = async (
                 target_user_id:
                     userId,
 
+
                 new_role:
                     currentRole,
+
 
                 new_ban_status:
                     newBanStatus
@@ -610,23 +726,19 @@ window.toggleBan = async (
 
 
 
-    if (error) {
-
+    if(error){
 
         alert(
             error.message
         );
 
-
         return;
-
 
     }
 
 
 
     await loadAdminPanel();
-
 
     await loadLeaderboard();
 
@@ -638,12 +750,12 @@ window.toggleBan = async (
 
 
 
+
 // ===============================
 // LEADERBOARD
 // ===============================
 
-async function loadLeaderboard() {
-
+async function loadLeaderboard(){
 
 
     const { data, error } =
@@ -661,16 +773,14 @@ async function loadLeaderboard() {
 
 
 
-    if (error) {
-
+    if(error){
 
         console.error(error);
 
-
         return;
 
-
     }
+
 
 
 
@@ -681,11 +791,9 @@ async function loadLeaderboard() {
 
 
 
-    if (!body) {
-
+    if(!body){
 
         return;
-
 
     }
 
@@ -696,11 +804,7 @@ async function loadLeaderboard() {
 
 
     data.forEach(
-        (
-            player,
-            index
-        ) => {
-
+        (player,index)=>{
 
 
         body.innerHTML += `
@@ -711,9 +815,11 @@ async function loadLeaderboard() {
                 #${index + 1}
             </td>
 
+
             <td>
                 ${player.username}
             </td>
+
 
             <td>
                 ${player.visits || 0}
@@ -725,26 +831,35 @@ async function loadLeaderboard() {
         `;
 
 
-
     });
 
 
 
 }
+
+
+
+
+
+
+
+
 // ===============================
 // ANNOUNCEMENTS
 // ===============================
 
-async function loadAnnouncements() {
+async function loadAnnouncements(){
 
 
-    const { data, error } =
+
+    const { data,error } =
         await supabase.rpc(
             "get_announcements"
         );
 
 
-    if (error) {
+
+    if(error){
 
         console.error(error);
 
@@ -761,7 +876,7 @@ async function loadAnnouncements() {
 
 
 
-    if (!container) {
+    if(!container){
 
         return;
 
@@ -773,7 +888,7 @@ async function loadAnnouncements() {
 
 
 
-    data.forEach(item => {
+    data.forEach(item=>{
 
 
         container.innerHTML += `
@@ -792,17 +907,16 @@ async function loadAnnouncements() {
 
 
             <small>
-
                 ${
                     new Date(
                         item.created_at
                     ).toLocaleString()
                 }
-
             </small>
 
 
         </div>
+
 
         `;
 
@@ -810,7 +924,10 @@ async function loadAnnouncements() {
     });
 
 
+
 }
+
+
 
 
 
@@ -820,7 +937,7 @@ async function loadAnnouncements() {
 // CREATE ANNOUNCEMENT
 // ===============================
 
-window.createAnnouncement = async () => {
+window.createAnnouncement = async()=>{
 
 
     const title =
@@ -843,18 +960,18 @@ window.createAnnouncement = async () => {
 
 
 
-    if (!title || !message) {
 
+
+    if(!title || !message){
 
         alert(
             "Please fill in all fields."
         );
 
-
         return;
 
-
     }
+
 
 
 
@@ -867,6 +984,7 @@ window.createAnnouncement = async () => {
                 announcement_title:
                     title,
 
+
                 announcement_message:
                     message
 
@@ -875,21 +993,18 @@ window.createAnnouncement = async () => {
 
 
 
-    if (error) {
 
+
+    if(error){
 
         alert(
             error.message
         );
 
-
-        console.error(error);
-
-
         return;
 
-
     }
+
 
 
 
@@ -910,25 +1025,18 @@ window.createAnnouncement = async () => {
     await loadAnnouncements();
 
 
+
     alert(
         "Announcement posted."
     );
 
 
 };
-
-
-
-
-
-
-
 // ===============================
 // PROFILE EDITOR
 // ===============================
 
-async function loadProfileEditor(profile) {
-
+async function loadProfileEditor(profile){
 
 
     const bio =
@@ -937,12 +1045,10 @@ async function loadProfileEditor(profile) {
         );
 
 
-
     const favourite =
         document.getElementById(
             "favoriteGame"
         );
-
 
 
     const avatar =
@@ -952,8 +1058,7 @@ async function loadProfileEditor(profile) {
 
 
 
-
-    if (bio) {
+    if(bio){
 
         bio.value =
             profile.bio || "";
@@ -962,7 +1067,7 @@ async function loadProfileEditor(profile) {
 
 
 
-    if (favourite) {
+    if(favourite){
 
         favourite.value =
             profile.favourite_game || "";
@@ -971,7 +1076,7 @@ async function loadProfileEditor(profile) {
 
 
 
-    if (avatar) {
+    if(avatar){
 
         avatar.src =
             profile.avatar_url ||
@@ -988,16 +1093,22 @@ async function loadProfileEditor(profile) {
 
 
 
+
 // ===============================
-// SAVE PROFILE
+// SAVE PROFILE + AVATAR UPLOAD
 // ===============================
 
 window.saveProfile = async () => {
 
 
+    console.log(
+        "Save profile started"
+    );
+
+
 
     const {
-        data: {
+        data:{
             user
         }
     } =
@@ -1005,11 +1116,19 @@ window.saveProfile = async () => {
 
 
 
-    if (!user) {
+    if(!user){
+
+
+        alert(
+            "You are not logged in."
+        );
+
 
         return;
 
+
     }
+
 
 
 
@@ -1023,12 +1142,20 @@ window.saveProfile = async () => {
 
 
 
+    console.log(
+        "Selected file:",
+        file
+    );
+
+
+
     let avatarUrl = null;
 
 
 
 
-    if (file) {
+
+    if(file){
 
 
 
@@ -1046,7 +1173,16 @@ window.saveProfile = async () => {
 
 
 
-        const { error: uploadError } =
+        console.log(
+            "Uploading:",
+            fileName
+        );
+
+
+
+
+
+        const { error:uploadError } =
             await supabase.storage
                 .from(
                     "avatars"
@@ -1061,10 +1197,18 @@ window.saveProfile = async () => {
 
 
 
-        if (uploadError) {
+
+
+        if(uploadError){
+
+
+            console.error(
+                uploadError
+            );
 
 
             alert(
+                "Avatar upload failed: " +
                 uploadError.message
             );
 
@@ -1078,7 +1222,7 @@ window.saveProfile = async () => {
 
 
 
-        const { data } =
+        const { data:urlData } =
             supabase.storage
                 .from(
                     "avatars"
@@ -1089,12 +1233,23 @@ window.saveProfile = async () => {
 
 
 
+
         avatarUrl =
-            data.publicUrl;
+            urlData.publicUrl;
+
+
+
+        console.log(
+            "Avatar URL:",
+            avatarUrl
+        );
 
 
 
     }
+
+
+
 
 
 
@@ -1118,14 +1273,13 @@ window.saveProfile = async () => {
                 )
                 ?.value || ""
 
-
     };
 
 
 
 
 
-    if (avatarUrl) {
+    if(avatarUrl){
 
 
         updateData.avatar_url =
@@ -1133,6 +1287,8 @@ window.saveProfile = async () => {
 
 
     }
+
+
 
 
 
@@ -1152,10 +1308,18 @@ window.saveProfile = async () => {
 
 
 
-    if (error) {
+
+
+    if(error){
+
+
+        console.error(
+            error
+        );
 
 
         alert(
+            "Profile update failed: " +
             error.message
         );
 
@@ -1164,6 +1328,8 @@ window.saveProfile = async () => {
 
 
     }
+
+
 
 
 
@@ -1185,8 +1351,87 @@ window.saveProfile = async () => {
 
 
 
+
+
 // ===============================
-// AUTO LOGIN CHECK
+// LIVE AVATAR PREVIEW
+// ===============================
+
+const avatarInput =
+    document.getElementById(
+        "avatarFile"
+    );
+
+
+if(avatarInput){
+
+
+    avatarInput.addEventListener(
+        "change",
+        () => {
+
+
+            const file =
+                avatarInput.files[0];
+
+
+
+            if(!file){
+
+                return;
+
+            }
+
+
+
+
+            const reader =
+                new FileReader();
+
+
+
+            reader.onload =
+                function(event){
+
+
+                    const avatar =
+                        document.getElementById(
+                            "avatarPreview"
+                        );
+
+
+                    if(avatar){
+
+                        avatar.src =
+                            event.target.result;
+
+                    }
+
+
+                };
+
+
+
+            reader.readAsDataURL(
+                file
+            );
+
+
+        }
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// ===============================
+// RESTORE LOGIN SESSION
 // ===============================
 
 const {
@@ -1198,7 +1443,7 @@ const {
 
 
 
-if (session) {
+if(session){
 
 
     await loadUser();
