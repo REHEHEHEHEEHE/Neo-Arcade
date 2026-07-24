@@ -1383,3 +1383,42 @@ alert(
 
 
 };
+// ----------------------------------------------------
+// Neo Arcade automatic update checker
+// ----------------------------------------------------
+
+const CURRENT_VERSION = "1.0.0";
+
+async function checkForUpdates() {
+
+    try {
+
+        const response = await fetch(
+            "version.json?nocache=" + Date.now()
+        );
+
+        if (!response.ok) return;
+
+        const latest = await response.json();
+
+        if (latest.version !== CURRENT_VERSION) {
+
+            const update = confirm(
+                "A new version of Neo Arcade is available.\n\nRefresh now?"
+            );
+
+            if (update) {
+                location.reload();
+            }
+
+        }
+
+    } catch (err) {
+        console.log("Update check skipped.");
+    }
+
+}
+
+// Check every hour
+checkForUpdates();
+setInterval(checkForUpdates, 3600000);
